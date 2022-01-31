@@ -1,14 +1,17 @@
 package edu.ufl.cise.plc;
 
 public class Token implements IToken {
+    private Kind kind;
+    private String text;
+
     @Override
     public Kind getKind() {
-        return null;
+        return kind;
     }
 
     @Override
     public String getText() {
-        return null;
+        return text;
     }
 
     @Override
@@ -18,21 +21,21 @@ public class Token implements IToken {
 
     @Override
     public int getIntValue() {
-        return 0;
+        return Integer.parseInt(text);
     }
 
     @Override
     public float getFloatValue() {
-        return 0;
+        return Float.parseFloat(text);
     }
 
     @Override
     public boolean getBooleanValue() {
-        return false;
+        return Boolean.parseBoolean(text);
     }
 
     @Override
     public String getStringValue() {
-        return null;
+        return text;
     }
 }
