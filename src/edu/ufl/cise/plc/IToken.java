@@ -1,4 +1,4 @@
-package edu.ufl.cise.plc.interfaces;
+package edu.ufl.cise.plc;
 
 public interface IToken {
 	

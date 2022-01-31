@@ -1,10 +1,10 @@
-package edu.ufl.cise.plc.exceptions;
+package edu.ufl.cise.plc;
 
 /**
  * This is the superclass of all the exceptions that will be thrown in our project
  */
 
-import edu.ufl.cise.plc.interfaces.IToken.SourceLocation;
+import edu.ufl.cise.plc.IToken.SourceLocation;
 
 @SuppressWarnings("serial")
 public class PLCException extends Exception {

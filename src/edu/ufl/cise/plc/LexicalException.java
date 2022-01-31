@@ -1,6 +1,6 @@
-package edu.ufl.cise.plc.exceptions;
+package edu.ufl.cise.plc;
 
-import edu.ufl.cise.plc.interfaces.IToken.SourceLocation;
+import edu.ufl.cise.plc.IToken.SourceLocation;
 
 @SuppressWarnings("serial")
 public class LexicalException extends PLCException {

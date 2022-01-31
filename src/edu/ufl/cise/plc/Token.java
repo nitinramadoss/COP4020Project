@@ -1,7 +1,5 @@
 package edu.ufl.cise.plc;
 
-import edu.ufl.cise.plc.interfaces.IToken;
-
 public class Token implements IToken {
     @Override
     public Kind getKind() {

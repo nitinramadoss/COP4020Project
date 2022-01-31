@@ -1,6 +1,4 @@
-package edu.ufl.cise.plc.interfaces;
-
-import edu.ufl.cise.plc.exceptions.LexicalException;
+package edu.ufl.cise.plc;
 
 public interface ILexer {
 
