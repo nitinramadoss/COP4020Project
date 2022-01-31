@@ -1,6 +1,8 @@
 package edu.ufl.cise.plc;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class Lexer implements ILexer {
     //DFA states
@@ -21,18 +23,11 @@ public class Lexer implements ILexer {
         WHITE_SPACE
     }
     // DFA representation
-    private class Node {
-        State state;
-        ArrayList<Node> children;
-
-        public Node(State state) {
-            this.state = state;
-        }
-    }
+    private HashMap<State, List<State>> dfa;
 
     private void createDFA(){
-        Node start = new Node(State.START);
-        // implement
+        dfa = new HashMap<>();
+        dfa.put(State.START, Arrays.asList(State.IDENT, State.COMMENT, State.WHITE_SPACE, State.TYPE));
     }
 
     @Override
