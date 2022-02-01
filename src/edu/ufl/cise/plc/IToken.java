@@ -56,7 +56,7 @@ public interface IToken {
 
 	//returns the characters in the source code that correspond to this token
 	//if the token is a STRING_LIT, this returns the raw characters, including delimiting "s and unhandled escape sequences.
-	public String getText();
+	public String getLiteral();
 	
 	//returns the location in the source code of the first character of the token.
 	public SourceLocation getSourceLocation();

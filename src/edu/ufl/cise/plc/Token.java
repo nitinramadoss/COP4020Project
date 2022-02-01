@@ -1,8 +1,15 @@
 package edu.ufl.cise.plc;
 
 public class Token implements IToken {
-    private Kind kind;
-    private String text;
+    private final Kind kind;
+    private final String literal;
+    private final SourceLocation location;
+
+    public Token(Kind kind, String literal, SourceLocation location) {
+        this.kind = kind;
+        this.literal = literal;
+        this.location = location;
+    }
 
     @Override
     public Kind getKind() {
@@ -10,8 +17,8 @@ public class Token implements IToken {
     }
 
     @Override
-    public String getText() {
-        return text;
+    public String getLiteral() {
+        return literal;
     }
 
     @Override
@@ -21,21 +28,21 @@ public class Token implements IToken {
 
     @Override
     public int getIntValue() {
-        return Integer.parseInt(text);
+        return Integer.parseInt(literal);
     }
 
     @Override
     public float getFloatValue() {
-        return Float.parseFloat(text);
+        return Float.parseFloat(literal);
     }
 
     @Override
     public boolean getBooleanValue() {
-        return Boolean.parseBoolean(text);
+        return Boolean.parseBoolean(literal);
     }
 
     @Override
     public String getStringValue() {
-        return text;
+        return literal;
     }
 }

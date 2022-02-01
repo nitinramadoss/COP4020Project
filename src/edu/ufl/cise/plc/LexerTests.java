@@ -6,11 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import edu.ufl.cise.plc.CompilerComponentFactory;
-import edu.ufl.cise.plc.ILexer;
-import edu.ufl.cise.plc.IToken;
 import edu.ufl.cise.plc.IToken.Kind;
-import edu.ufl.cise.plc.LexicalException;
 
 
 public class LexerTests {
@@ -41,7 +37,7 @@ public class LexerTests {
 	//check that this token is an IDENT and has the expected name
 	void checkIdent(IToken t, String expectedName){
 		assertEquals(Kind.IDENT, t.getKind());
-		assertEquals(expectedName, t.getText());
+		assertEquals(expectedName, t.getLiteral());
 	}
 	
 	//check that this token is an IDENT, has the expected name, and has the expected position
