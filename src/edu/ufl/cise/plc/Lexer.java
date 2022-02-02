@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Lexer implements ILexer {
 
@@ -25,7 +26,6 @@ public class Lexer implements ILexer {
     private final String rawInput;
     private int posOverall, posInLine, line;
     IToken.SourceLocation tokenStart;
-    boolean nextCalled = false;
     private State currState;
 
 
@@ -51,7 +51,8 @@ public class Lexer implements ILexer {
 
     @Override
     public IToken next() throws LexicalException {
-        nextCalled = true;
+        String literal = "";
+
         while (true) {
             currState = State.START;
 
@@ -120,13 +121,13 @@ public class Lexer implements ILexer {
                         case '0' -> {
                             currState = State.INT_ZERO_LIT;
                         }
-                        case '1','2','3','4','5','6','7','8','9' -> {
-                            currState = State.INT_LIT;
+                        default -> {
+                            if (Pattern.matches("[a-z]|[A-Z]|[$]|[_]", "" + ch)) {
+                                currState = State.IDENT;
+                            } else if (Pattern.matches("[1-9]", "" + ch)) {
+                                currState = State.INT_LIT;
+                            }
                         }
-                        case 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x', 'y', 'z', 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V', 'W', 'X', 'Y', 'Z', '$', '_' -> {
-                            currState = State.IDENT;
-                        }
-
                     }
                 }
                 case IDENT -> {
@@ -140,14 +141,56 @@ public class Lexer implements ILexer {
                     }
                 }
                 case FLOAT_LIT -> {
+                    if (Pattern.matches("[0-9]", "" + ch)) {
+                        literal += ch;
+                    } else if (ch == ' ') {
+                        currState = State.START;
+                    } else {
+                        throw new LexicalException("Invalid float literal!", line, posInLine);
+                    }
 
                 }
                 case INT_LIT -> {
+                    if (ch == '.') {
+                        currState = State.FLOAT_LIT;
+                    } else if (Pattern.matches("[1-9]", "" + ch)) {
+                        literal += ch;
+                    } else if (ch == ' ') {
+                        currState = State.START;
+                    } else {
+                        throw new LexicalException("Invalid int literal!", line, posInLine);
+                    }
 
                 }
-                case INT_ZERO_LIT -> {}
-                case STRING_LIT -> {}
-                case MINUS -> {}
+                case INT_ZERO_LIT -> {
+                    if (ch == '.') {
+                        currState = State.FLOAT_LIT;
+                    } else if (ch == ' ') {
+                        currState = State.START;
+                    } else {
+                        throw new LexicalException("Invalid int literal!", line, posInLine);
+                    }
+                }
+                case STRING_LIT -> {
+//                    if (ch == '"') {
+//                        literal += ch;
+//                        return makeToken(IToken.Kind.STRING_LIT, literal);
+//                    } else if (Pattern.matches("[a-z]|[1-9]|[A-Z]", "" + ch)) {
+//
+//                    }
+                }
+                case MINUS -> {
+                    literal += ch;
+
+                    if (ch == '>') {
+                        return makeToken(IToken.Kind.RARROW, literal);
+                    } else if (ch == ' ') {
+                        currState = State.START;
+                        return makeToken(IToken.Kind.RARROW, literal);
+                    } else {
+                        throw new LexicalException("Invalid token!", line, posInLine);
+                    }
+                }
                 case EXCLAMATION -> {}
                 case R_ARROW -> {}
                 case L_ARROW -> {}
