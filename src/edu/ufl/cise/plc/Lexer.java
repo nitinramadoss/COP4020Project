@@ -12,33 +12,26 @@ public class Lexer implements ILexer {
         START,
         IDENT,
         INT_LIT,
+        INT_ZERO_LIT,
         FLOAT_LIT,
         STRING_LIT,
-        RESERVED,
-        TYPE,
-        IMAGE_OP,
-        COLOR_OP,
-        COLOR_CONST,
-        BOOLEAN_LIT,
-        OTHER_KEYWORDS,
-        COMMENT,
-        WHITE_SPACE
+        MINUS,
+        EXCLAMATION,
+        R_ARROW,
+        L_ARROW,
+        ASSIGNMENT
     }
 
     private final String rawInput;
     private int posOverall, posInLine, line;
     IToken.SourceLocation tokenStart;
+    boolean nextCalled = false;
     private State currState;
 
-    // DFA representation
-    private HashMap<State, List<State>> dfa;
-
-    private final List<Token> tokens = new ArrayList<>();
 
     public Lexer(String rawInput) {
         this.rawInput = rawInput;
         this.posOverall = this.posInLine = line = 0;
-        createDFA(rawInput.toCharArray());
     }
 
     private char advance() {
@@ -54,14 +47,11 @@ public class Lexer implements ILexer {
         return new Token(kind, literal, tokenStart);
     }
 
-    private void createDFA(char[] chars){
-        dfa = new HashMap<>();
-        dfa.put(State.START, Arrays.asList(State.IDENT, State.COMMENT, State.WHITE_SPACE, State.TYPE));
 
-    }
 
     @Override
     public IToken next() throws LexicalException {
+        nextCalled = true;
         while (true) {
             currState = State.START;
 
@@ -109,12 +99,59 @@ public class Lexer implements ILexer {
                         case ';' -> {
                             return makeToken(IToken.Kind.SEMI);
                         }
-
-                        // Non single-character tokens
+                        case '-' -> {
+                            currState = State.MINUS;
+                        }
+                        case '!' -> {
+                            currState = State.EXCLAMATION;
+                        }
+                        case '<' -> {
+                            currState = State.L_ARROW;
+                        }
+                        case '>' -> {
+                            currState = State.R_ARROW;
+                        }
+                        case '=' -> {
+                            currState = State.ASSIGNMENT;
+                        }
+                        case '"' -> {
+                            currState = State.STRING_LIT;
+                        }
+                        case '0' -> {
+                            currState = State.INT_ZERO_LIT;
+                        }
+                        case '1','2','3','4','5','6','7','8','9' -> {
+                            currState = State.INT_LIT;
+                        }
+                        case 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x', 'y', 'z', 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V', 'W', 'X', 'Y', 'Z', '$', '_' -> {
+                            currState = State.IDENT;
+                        }
 
                     }
                 }
-                // Cases for other states
+                case IDENT -> {
+                    switch(ch) {
+                        case ' ', '\n', '\t', '\r' -> {
+                            currState = State.START;
+                        }
+                        default -> {
+                            throw new LexicalException("Invalid identifier!", line, posInLine);
+                        }
+                    }
+                }
+                case FLOAT_LIT -> {
+
+                }
+                case INT_LIT -> {
+
+                }
+                case INT_ZERO_LIT -> {}
+                case STRING_LIT -> {}
+                case MINUS -> {}
+                case EXCLAMATION -> {}
+                case R_ARROW -> {}
+                case L_ARROW -> {}
+                case ASSIGNMENT -> {}
             }
         }
     }
