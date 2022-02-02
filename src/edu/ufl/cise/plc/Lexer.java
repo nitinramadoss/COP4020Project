@@ -46,26 +46,27 @@ public class Lexer implements ILexer {
         return rawInput.charAt(posOverall++);
     }
 
-    private void addToken(IToken.Kind kind) {
-        addToken(kind, null);
+    private Token makeToken(IToken.Kind kind) {
+        return makeToken(kind, null);
     }
 
-    private void addToken(IToken.Kind kind, String literal) {
-        Token t = new Token(kind, literal, tokenStart);
-        tokens.add(t);
+    private Token makeToken(IToken.Kind kind, String literal) {
+        return new Token(kind, literal, tokenStart);
     }
 
     private void createDFA(char[] chars){
         dfa = new HashMap<>();
         dfa.put(State.START, Arrays.asList(State.IDENT, State.COMMENT, State.WHITE_SPACE, State.TYPE));
 
-        currState = State.START;
-        int startPos;
+    }
 
+    @Override
+    public IToken next() throws LexicalException {
         while (true) {
+            currState = State.START;
+
             if (posOverall >= rawInput.length()) {
-                addToken(IToken.Kind.EOF);
-                break;
+                return makeToken(IToken.Kind.EOF);
             }
             char ch = advance();
 
@@ -77,58 +78,50 @@ public class Lexer implements ILexer {
 
                         case '\n' -> {
                             posInLine = 0;
-                            line += 1;
+                            line++;
                         }
 
                         // Following cases apply to single-character tokens. Possibly simplify w/ Map<char, Kind>
                         case '+' -> {
-                            addToken(IToken.Kind.PLUS);
+                            return makeToken(IToken.Kind.PLUS);
                         }
                         case '*' -> {
-                            addToken(IToken.Kind.TIMES);
+                            return makeToken(IToken.Kind.TIMES);
                         }
                         case '/' -> {
-                            addToken(IToken.Kind.DIV);
+                            return makeToken(IToken.Kind.DIV);
                         }
                         case '%' -> {
-                            addToken(IToken.Kind.MOD);
+                            return makeToken(IToken.Kind.MOD);
                         }
                         case '&' -> {
-                            addToken(IToken.Kind.AND);
+                            return makeToken(IToken.Kind.AND);
                         }
                         case '|' -> {
-                            addToken(IToken.Kind.OR);
+                            return makeToken(IToken.Kind.OR);
                         }
                         case ',' -> {
-                            addToken(IToken.Kind.COMMA);
+                            return makeToken(IToken.Kind.COMMA);
                         }
                         case '^' -> {
-                            addToken(IToken.Kind.RETURN);
+                            return makeToken(IToken.Kind.RETURN);
                         }
                         case ';' -> {
-                            addToken(IToken.Kind.SEMI);
+                            return makeToken(IToken.Kind.SEMI);
                         }
 
                         // Non single-character tokens
-
 
                     }
                 }
                 // Cases for other states
             }
         }
-        for (Token token : tokens) {
-            System.out.println(token.getKind());
-        }
-    }
-
-    @Override
-    public IToken next() throws LexicalException {
-        return null;
     }
 
     @Override
     public IToken peek() throws LexicalException {
         return null;
+
     }
 }
