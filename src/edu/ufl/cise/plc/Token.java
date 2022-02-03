@@ -28,17 +28,32 @@ public class Token implements IToken {
 
     @Override
     public int getIntValue() {
-        return Integer.parseInt(literal);
+        try {
+            return Integer.parseInt(literal);
+        }
+        catch (Exception e) {
+            throw new UnsupportedOperationException();
+        }
     }
 
     @Override
     public float getFloatValue() {
-        return Float.parseFloat(literal);
+        try {
+            return Float.parseFloat(literal);
+        }
+        catch (Exception e) {
+            throw new UnsupportedOperationException();
+        }
     }
 
     @Override
     public boolean getBooleanValue() {
-        return Boolean.parseBoolean(literal);
+        try {
+            return Boolean.parseBoolean(literal);
+        }
+        catch (Exception e) {
+            throw new UnsupportedOperationException();
+        }
     }
 
     @Override
