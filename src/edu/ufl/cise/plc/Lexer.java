@@ -223,7 +223,7 @@ public class Lexer implements ILexer {
                     if (ch == '.') {
                         literal.append(ch);
                         currState = State.FLOAT_LIT;
-                    } else if (Pattern.matches("[1-9]", "" + ch)) { // FIXME: should this be 0-9?
+                    } else if (Pattern.matches("[0-9]", "" + ch)) {
                         literal.append(ch);
                     } else {
                         goBack();
