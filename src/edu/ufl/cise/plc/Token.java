@@ -23,7 +23,7 @@ public class Token implements IToken {
 
     @Override
     public SourceLocation getSourceLocation() {
-        return null;
+        return location;
     }
 
     @Override
