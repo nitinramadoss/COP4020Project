@@ -17,7 +17,7 @@ public class Token implements IToken {
     }
 
     @Override
-    public String getLiteral() {
+    public String getText() {
         return literal;
     }
 
