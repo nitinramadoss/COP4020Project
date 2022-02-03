@@ -315,6 +315,7 @@ public class Lexer implements ILexer {
                 }
                 case COMMENT -> {
                     if (ch == '\n') {
+                        goBack();
                         currState = State.START;
                     }
                 }
