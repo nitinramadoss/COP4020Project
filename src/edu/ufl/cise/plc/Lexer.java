@@ -90,8 +90,6 @@ public class Lexer implements ILexer {
         return new Token(kind, literal, tokenStart);
     }
 
-
-
     @Override
     public IToken next() throws LexicalException {
         StringBuilder literal = new StringBuilder();
@@ -106,7 +104,7 @@ public class Lexer implements ILexer {
 
             switch(currState) {
                 case START -> {
-                    tokenStart = new IToken.SourceLocation(line, posInLine);
+                    tokenStart = new IToken.SourceLocation(line, posInLine-1);
                     switch (ch) {
                         case ' ', '\t', '\r' -> {}
 
@@ -195,6 +193,8 @@ public class Lexer implements ILexer {
                             } else if (Pattern.matches("[1-9]", "" + ch)) {
                                 literal.append(ch);
                                 currState = State.INT_LIT;
+                            } else {
+                                throw new LexicalException("Character is not supported", tokenStart);
                             }
                         }
                     }
@@ -226,6 +226,12 @@ public class Lexer implements ILexer {
                     } else if (Pattern.matches("[0-9]", "" + ch)) {
                         literal.append(ch);
                     } else {
+                        try {
+                            int x = Integer.parseInt(literal.toString());
+                        } catch (NumberFormatException e) {
+                            throw new LexicalException("Number is too large to be formatted as an integer", tokenStart);
+                        }
+
                         goBack();
                         return makeToken(IToken.Kind.INT_LIT, literal.toString());
                     }
@@ -246,6 +252,8 @@ public class Lexer implements ILexer {
                         return makeToken(IToken.Kind.STRING_LIT, literal.toString());
                     } else if (Pattern.matches("([\b|\r|\t|\n|\f])|[^\"]", "" + ch)) {
                         literal.append(ch);
+                    } else {
+                        throw new LexicalException("Incomplete string", tokenStart);
                     }
                 }
                 case MINUS -> {
