@@ -1,9 +1,6 @@
 package edu.ufl.cise.plc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class Lexer implements ILexer {
@@ -20,7 +17,8 @@ public class Lexer implements ILexer {
         EXCLAMATION,
         R_ARROW,
         L_ARROW,
-        ASSIGNMENT
+        ASSIGNMENT,
+        COMMENT
     }
 
     private final String rawInput;
@@ -79,6 +77,11 @@ public class Lexer implements ILexer {
         return rawInput.charAt(posOverall++);
     }
 
+    private void goBack() {
+        posOverall--;
+        posInLine--;
+    }
+
     private Token makeToken(IToken.Kind kind) {
         return makeToken(kind, null);
     }
@@ -112,6 +115,7 @@ public class Lexer implements ILexer {
                             line++;
                         }
 
+                        // Single character tokens
                         case '+' -> {
                             return makeToken(IToken.Kind.PLUS);
                         }
@@ -150,6 +154,11 @@ public class Lexer implements ILexer {
                         }
                         case ']' -> {
                             return makeToken(IToken.Kind.RSQUARE);
+                        }
+
+                        // State-switching characters
+                        case '#' -> {
+                            currState = State.COMMENT;
                         }
                         case '-' -> {
                             literal.append(ch);
@@ -197,6 +206,7 @@ public class Lexer implements ILexer {
                     } else if (Pattern.matches("[a-z]|[A-Z]|[$]|[_]|[0-9]", "" + ch)) {
                         literal.append(ch);
                     } else {
+                        goBack();
                         return makeToken(IToken.Kind.IDENT, litString);
                     }
                 }
@@ -204,6 +214,7 @@ public class Lexer implements ILexer {
                     if (Pattern.matches("[0-9]", "" + ch)) {
                         literal.append(ch);
                     } else {
+                        goBack();
                         return makeToken(IToken.Kind.FLOAT_LIT, literal.toString());
                     }
 
@@ -212,9 +223,10 @@ public class Lexer implements ILexer {
                     if (ch == '.') {
                         literal.append(ch);
                         currState = State.FLOAT_LIT;
-                    } else if (Pattern.matches("[1-9]", "" + ch)) {
+                    } else if (Pattern.matches("[1-9]", "" + ch)) { // FIXME: should this be 0-9?
                         literal.append(ch);
                     } else {
+                        goBack();
                         return makeToken(IToken.Kind.INT_LIT, literal.toString());
                     }
 
@@ -224,6 +236,7 @@ public class Lexer implements ILexer {
                         literal.append(ch);
                         currState = State.FLOAT_LIT;
                     } else {
+                        goBack();
                         return makeToken(IToken.Kind.INT_LIT, literal.toString());
                     }
                 }
@@ -240,6 +253,7 @@ public class Lexer implements ILexer {
                         literal.append(ch);
                         return makeToken(IToken.Kind.RARROW, literal.toString());
                     } else {
+                        goBack();
                         return makeToken(IToken.Kind.MINUS, literal.toString());
                     }
                 }
@@ -248,6 +262,7 @@ public class Lexer implements ILexer {
                         literal.append(ch);
                         return makeToken(IToken.Kind.NOT_EQUALS, literal.toString());
                     } else {
+                        goBack();
                         return makeToken(IToken.Kind.BANG, literal.toString());
                     }
                 }
@@ -259,6 +274,7 @@ public class Lexer implements ILexer {
                         literal.append(ch);
                         return makeToken(IToken.Kind.GE, literal.toString());
                     } else {
+                        goBack();
                         return makeToken(IToken.Kind.GT, literal.toString());
                     }
                 }
@@ -273,6 +289,7 @@ public class Lexer implements ILexer {
                         literal.append(ch);
                         return makeToken(IToken.Kind.LE, literal.toString());
                     } else {
+                        goBack();
                         return makeToken(IToken.Kind.LT, literal.toString());
                     }
                 }
@@ -281,7 +298,13 @@ public class Lexer implements ILexer {
                         literal.append(ch);
                         return makeToken(IToken.Kind.EQUALS, literal.toString());
                     } else {
+                        goBack();
                         return makeToken(IToken.Kind.ASSIGN, literal.toString());
+                    }
+                }
+                case COMMENT -> {
+                    if (ch == '\n') {
+                        currState = State.START;
                     }
                 }
             }
