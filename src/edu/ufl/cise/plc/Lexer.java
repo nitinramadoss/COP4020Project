@@ -98,6 +98,9 @@ public class Lexer implements ILexer {
         while (true) {
 
             if (posOverall >= rawInput.length()) {
+                if (currState != State.START) {
+                    throw new LexicalException("Unexpected end of file", tokenStart);
+                }
                 return makeToken(IToken.Kind.EOF);
             }
             char ch = advance();
@@ -317,7 +320,6 @@ public class Lexer implements ILexer {
                 }
             }
         }
-
     }
 
     @Override
