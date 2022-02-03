@@ -33,7 +33,7 @@ public class Lexer implements ILexer {
 
     public Lexer(String rawInput) {
         this.rawInput = rawInput;
-        this.posOverall = this.posInLine = line = 0;
+        this.posOverall = this.posInLine = this.line = 0;
         initMap();
     }
 
@@ -112,7 +112,6 @@ public class Lexer implements ILexer {
                             line++;
                         }
 
-                        // Following cases apply to single-character tokens. Possibly simplify w/ Map<char, Kind>
                         case '+' -> {
                             return makeToken(IToken.Kind.PLUS);
                         }
@@ -287,11 +286,23 @@ public class Lexer implements ILexer {
                 }
             }
         }
+
     }
 
     @Override
     public IToken peek() throws LexicalException {
-        return null;
+        int tmp_po = posOverall;
+        int tmp_pil = posInLine;
+        int tmp_line = line;
+        IToken.SourceLocation tmp_itsl = tokenStart;
 
+        IToken tmp = next();
+
+        posOverall = tmp_po;
+        posInLine = tmp_pil;
+        line = tmp_line;
+        tokenStart = tmp_itsl;
+
+        return tmp;
     }
 }
