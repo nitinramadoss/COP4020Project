@@ -58,6 +58,35 @@ public class Token implements IToken {
 
     @Override
     public String getStringValue() {
-        return literal.replace("\\n", "\n").replace("\"", "");
+        StringBuilder replaced = new StringBuilder();
+
+        for (int i = 1; i < literal.length()-1; i++) {
+            if (literal.charAt(i) == '\\') {
+                if (literal.charAt(i+1) == 'n') {
+                    replaced.append('\n');
+                } else if (literal.charAt(i+1) == '"') {
+                    replaced.append('"');
+                } else if (literal.charAt(i+1) == 'r') {
+                    replaced.append('\r');
+                } else if (literal.charAt(i+1) == 'b') {
+                    replaced.append('\b');
+                } else if (literal.charAt(i+1) == 't') {
+                    replaced.append('\t');
+                } else if (literal.charAt(i+1) == 'f') {
+                    replaced.append('\f');
+                } else if (literal.charAt(i+1) == '\'') {
+                    replaced.append('\'');
+                } else {
+                    replaced.append('\\');
+                }
+
+                i++;
+            } else {
+                replaced.append(literal.charAt(i));
+            }
+        }
+
+        return replaced.toString();
+       // return literal.replace("\\n", "\n").replace("\"", "").replace("\\\\", "\\");
     }
 }

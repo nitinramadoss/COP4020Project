@@ -98,17 +98,62 @@ public class Lexer implements ILexer {
         while (true) {
 
             if (posOverall >= rawInput.length()) {
-                if (currState != State.START) {
+                if (currState == State.START || currState == State.COMMENT) {
+                    return makeToken(IToken.Kind.EOF);
+                }
+                else if (currState == State.STRING_LIT) {
                     throw new LexicalException("Unexpected end of file", tokenStart);
-                } else {
+                }
+                else {
                     switch (currState) {
                         case INT_LIT -> {
+                            goBack();
+                            currState = State.START;
                             return makeToken(IToken.Kind.INT_LIT, literal.toString());
+                        }
+                        case IDENT -> {
+                            goBack();
+                            currState = State.START;
+                            return makeToken(IToken.Kind.IDENT, literal.toString());
+                        }
+                        case FLOAT_LIT -> {
+                            goBack();
+                            currState = State.START;
+                            return makeToken(IToken.Kind.FLOAT_LIT, literal.toString());
+                        }
+                        case INT_ZERO_LIT -> {
+                            goBack();
+                            currState = State.START;
+                            return makeToken(IToken.Kind.INT_LIT, literal.toString());
+                        }
+                        case MINUS -> {
+                            goBack();
+                            currState = State.START;
+                            return makeToken(IToken.Kind.MINUS, literal.toString());
+                        }
+                        case EXCLAMATION -> {
+                            goBack();
+                            currState = State.START;
+                            return makeToken(IToken.Kind.BANG, literal.toString());
+                        }
+                        case R_ARROW -> {
+                            goBack();
+                            currState = State.START;
+                            return makeToken(IToken.Kind.GT, literal.toString());
+                        }
+                        case L_ARROW -> {
+                            goBack();
+                            currState = State.START;
+                            return makeToken(IToken.Kind.LT, literal.toString());
+                        }
+                        case ASSIGNMENT -> {
+                            goBack();
+                            currState = State.START;
+                            return makeToken(IToken.Kind.ASSIGN, literal.toString());
                         }
                     }
                 }
 
-                return makeToken(IToken.Kind.EOF);
             }
             char ch = advance();
 
@@ -196,6 +241,10 @@ public class Lexer implements ILexer {
                             literal.append(ch);
                             currState = State.INT_ZERO_LIT;
                         }
+                        case '1', '2', '3', '4', '5', '6', '7', '8', '9' -> {
+                            literal.append(ch);
+                            currState = State.INT_LIT;
+                        }
                         default -> {
                             if (Character.isJavaIdentifierStart(ch)) {
                                 literal.append(ch);
@@ -213,6 +262,11 @@ public class Lexer implements ILexer {
                         literal.append(ch);
                     } else {
                         goBack();
+
+                        if (reserved.containsKey(litString)) {
+                            return makeToken(reserved.get(litString), litString);
+                        }
+
                         return makeToken(IToken.Kind.IDENT, litString);
                     }
                 }
