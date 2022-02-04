@@ -208,6 +208,7 @@ public class Lexer implements ILexer {
                 }
                 case IDENT -> {
                     String litString = literal.toString();
+
                     if (Character.isJavaIdentifierPart(ch)) {
                         literal.append(ch);
                     } else {
