@@ -98,6 +98,16 @@ public class Lexer implements ILexer {
         while (true) {
 
             if (posOverall >= rawInput.length()) {
+                if (currState != State.START) {
+                    throw new LexicalException("Unexpected end of file", tokenStart);
+                } else {
+                    switch (currState) {
+                        case INT_LIT -> {
+                            return makeToken(IToken.Kind.INT_LIT, literal.toString());
+                        }
+                    }
+                }
+
                 return makeToken(IToken.Kind.EOF);
             }
             char ch = advance();
@@ -187,12 +197,9 @@ public class Lexer implements ILexer {
                             currState = State.INT_ZERO_LIT;
                         }
                         default -> {
-                            if (Pattern.matches("[a-z]|[A-Z]|[$]|[_]", "" + ch)) {
+                            if (Character.isJavaIdentifierStart(ch)) {
                                 literal.append(ch);
                                 currState = State.IDENT;
-                            } else if (Pattern.matches("[1-9]", "" + ch)) {
-                                literal.append(ch);
-                                currState = State.INT_LIT;
                             } else {
                                 throw new LexicalException("Character is not supported", tokenStart);
                             }
@@ -201,9 +208,7 @@ public class Lexer implements ILexer {
                 }
                 case IDENT -> {
                     String litString = literal.toString();
-                    if (reserved.containsKey(litString)) {
-                        return makeToken(reserved.get(litString), litString);
-                    } else if (Pattern.matches("[a-z]|[A-Z]|[$]|[_]|[0-9]", "" + ch)) {
+                    if (Character.isJavaIdentifierPart(ch)) {
                         literal.append(ch);
                     } else {
                         goBack();
@@ -211,7 +216,7 @@ public class Lexer implements ILexer {
                     }
                 }
                 case FLOAT_LIT -> {
-                    if (Pattern.matches("[0-9]", "" + ch)) {
+                    if (Character.isDigit(ch)) {
                         literal.append(ch);
                     } else {
                         goBack();
@@ -223,7 +228,7 @@ public class Lexer implements ILexer {
                     if (ch == '.') {
                         literal.append(ch);
                         currState = State.FLOAT_LIT;
-                    } else if (Pattern.matches("[0-9]", "" + ch)) {
+                    } else if (Character.isDigit(ch)) {
                         literal.append(ch);
                     } else {
                         try {
@@ -250,14 +255,12 @@ public class Lexer implements ILexer {
                     if (ch == '"') {
                         literal.append(ch);
                         return makeToken(IToken.Kind.STRING_LIT, literal.toString());
-                    } else if (Pattern.matches("([\b|\r|\t|\n|\f])|[^\"]", "" + ch)) {
-                        literal.append(ch);
                     } else {
-                        throw new LexicalException("Incomplete string", tokenStart);
+                        literal.append(ch);
                     }
                 }
                 case MINUS -> {
-                    if (ch == '>') {
+                        if (ch == '>') {
                         literal.append(ch);
                         return makeToken(IToken.Kind.RARROW, literal.toString());
                     } else {
@@ -312,12 +315,12 @@ public class Lexer implements ILexer {
                 }
                 case COMMENT -> {
                     if (ch == '\n') {
+                        goBack();
                         currState = State.START;
                     }
                 }
             }
         }
-
     }
 
     @Override

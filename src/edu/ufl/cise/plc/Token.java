@@ -58,6 +58,6 @@ public class Token implements IToken {
 
     @Override
     public String getStringValue() {
-        return literal;
+        return literal.replace("\\n", "\n").replace("\"", "");
     }
 }
