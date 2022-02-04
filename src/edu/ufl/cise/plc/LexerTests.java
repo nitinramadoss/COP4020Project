@@ -529,14 +529,12 @@ public class LexerTests {
 		checkEOF(lexer.next());
 	}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 	// testReservedInIdent an ident consisting of a reserved word
 	@Test
-	public void testReservedInIdent() throws LexicalException{
+	public void testReservedInIdent() throws LexicalException {
 		String input = """
-        int intx = 5;
-        """;
+				int intx = 5;
+				""";
 		show(input);
 		ILexer lexer = getLexer(input);
 		checkToken(lexer.next(), Kind.TYPE, 0, 0);
@@ -544,9 +542,8 @@ public class LexerTests {
 		checkToken(lexer.next(), Kind.ASSIGN, 0, 9);
 		checkToken(lexer.next(), Kind.INT_LIT, 0, 11);
 		checkToken(lexer.next(), Kind.SEMI, 0, 12);
-=======
-=======
->>>>>>> 4f5828a6aeba8894a2e3305eadb435d909a7930b
+	}
+
 	@Test
 	void testErrorOnSingleDoubleQuote() throws LexicalException {
 		String input = "\"";
@@ -676,17 +673,10 @@ public class LexerTests {
 		checkToken(lexer.next(), Kind.IDENT);
 		checkToken(lexer.next(), Kind.RPAREN);
 		checkToken(lexer.next(), Kind.SEMI);
-
-<<<<<<< HEAD
->>>>>>> 4f5828a6aeba8894a2e3305eadb435d909a7930b
-=======
->>>>>>> 4f5828a6aeba8894a2e3305eadb435d909a7930b
 		checkEOF(lexer.next());
 	}
 
 	@Test
-<<<<<<< HEAD
-<<<<<<< HEAD
 	public void testNoNewLines() throws LexicalException{
 		String input = """
 				5""";
@@ -695,9 +685,7 @@ public class LexerTests {
 		checkToken(lexer.next(), Kind.INT_LIT, 0, 0);
 		checkEOF(lexer.next());
 	}
-=======
-=======
->>>>>>> 4f5828a6aeba8894a2e3305eadb435d909a7930b
+
 	public void testEOF1() throws LexicalException {
 		String input = "#ThisEndsInEOF";
 		show(input);
@@ -857,15 +845,4 @@ public class LexerTests {
 		checkEOF(lexer.peek());
 		checkEOF(lexer.next());
 	}
-
-
-
-<<<<<<< HEAD
->>>>>>> 4f5828a6aeba8894a2e3305eadb435d909a7930b
-=======
->>>>>>> 4f5828a6aeba8894a2e3305eadb435d909a7930b
-
-
-
-
 }
