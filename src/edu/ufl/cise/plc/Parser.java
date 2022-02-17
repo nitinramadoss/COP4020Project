@@ -1,6 +1,7 @@
 package edu.ufl.cise.plc;
 
 import edu.ufl.cise.plc.ast.ASTNode;
+import edu.ufl.cise.plc.ast.BinaryExpr;
 
 public class Parser implements IParser{
     // Current token
@@ -9,10 +10,16 @@ public class Parser implements IParser{
 
     public Parser(String input) {
         lexer = new Lexer(input);
+        try {
+            consume();
+        } catch (LexicalException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public ASTNode parse() throws PLCException {
+        expr();
         return null;
     }
 
@@ -20,7 +27,7 @@ public class Parser implements IParser{
         if (isKind(c)) {
             consume();
         } else {
-            throw new SyntaxException("Invalid syntax!");
+            throw new SyntaxException("Syntax error!");
         }
     }
 
@@ -41,14 +48,11 @@ public class Parser implements IParser{
        t = lexer.next();
     }
 
-    public void expr() {
-        try {
-            conditionalExpr();
+    public void expr() throws LexicalException, SyntaxException{
+        conditionalExpr();
+
+        if (!isKind(IToken.Kind.KW_ELSE, IToken.Kind.EOF)) {
             logicalOrExpr();
-        } catch (LexicalException e) {
-            e.printStackTrace();
-        } catch (SyntaxException e) {
-            e.printStackTrace();
         }
     }
 
@@ -122,9 +126,15 @@ public class Parser implements IParser{
         pixelSel();
     }
 
-    public void primaryExpr() throws LexicalException {
-        if(isKind(IToken.Kind.BOOLEAN_LIT, IToken.Kind.STRING_LIT, IToken.Kind.INT_LIT, IToken.Kind.FLOAT_LIT, IToken.Kind.IDENT, IToken.Kind.LPAREN)) {
+    public void primaryExpr() throws LexicalException, SyntaxException {
+        if(isKind(IToken.Kind.BOOLEAN_LIT, IToken.Kind.STRING_LIT, IToken.Kind.INT_LIT, IToken.Kind.FLOAT_LIT, IToken.Kind.IDENT)) {
             consume();
+        } else if (isKind(IToken.Kind.LPAREN)) {
+            consume();
+            expr();
+            match(IToken.Kind.RPAREN);
+        } else {
+            throw new SyntaxException("Syntax error!");
         }
     }
 
