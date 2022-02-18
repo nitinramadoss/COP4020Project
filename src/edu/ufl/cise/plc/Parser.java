@@ -1,7 +1,6 @@
 package edu.ufl.cise.plc;
 
-import edu.ufl.cise.plc.ast.ASTNode;
-import edu.ufl.cise.plc.ast.BinaryExpr;
+import edu.ufl.cise.plc.ast.*;
 
 public class Parser implements IParser{
     // Current token
@@ -19,8 +18,7 @@ public class Parser implements IParser{
 
     @Override
     public ASTNode parse() throws PLCException {
-        expr();
-        return null;
+        return expr();
     }
 
     void match(IToken.Kind c) throws LexicalException, SyntaxException {
@@ -48,103 +46,192 @@ public class Parser implements IParser{
        t = lexer.next();
     }
 
-    public void expr() throws LexicalException, SyntaxException{
-        conditionalExpr();
-
-        if (!isKind(IToken.Kind.KW_ELSE, IToken.Kind.EOF)) {
-            logicalOrExpr();
+    public Expr expr() throws LexicalException, SyntaxException{
+        Expr expr;
+        if (isKind(IToken.Kind.KW_IF)) {
+            expr = conditionalExpr();
+        } else {
+            expr = logicalOrExpr();
         }
+
+        return expr;
     }
 
-    public void conditionalExpr() throws LexicalException, SyntaxException {
+    public Expr conditionalExpr() throws LexicalException, SyntaxException {
+        IToken firstToken = t;
+        Expr conditional = null;
+        Expr cond = null;
+        Expr trueCase = null;
+        Expr falseCase = null;
+
         if (isKind(IToken.Kind.KW_IF)) {
             consume();
             match(IToken.Kind.LPAREN);
-            expr();
+            cond = expr();
             match(IToken.Kind.RPAREN);
-            expr();
+            trueCase = expr();
         }
 
         if (isKind(IToken.Kind.KW_ELSE)) {
             consume();
-            expr();
-            match(IToken.Kind.KW_FI);
+            falseCase = expr();
         }
+
+        match(IToken.Kind.KW_FI);
+        conditional = new ConditionalExpr(firstToken, cond, trueCase, falseCase);
+
+        return conditional;
     }
 
-    public void logicalOrExpr() throws LexicalException, SyntaxException {
-        logicalAndExpr();
+    public Expr logicalOrExpr() throws LexicalException, SyntaxException {
+        IToken firstToken = t;
+        Expr left;
+        Expr right;
+
+        left = logicalAndExpr();
         while(isKind(IToken.Kind.OR)) {
+            IToken op = t;
             consume();
-            logicalAndExpr();
+            right = logicalAndExpr();
+            left = new BinaryExpr(firstToken, left, op, right);
         }
+
+        return left;
     }
 
-    public void logicalAndExpr() throws LexicalException, SyntaxException {
-        comparisonExpr();
+    public Expr logicalAndExpr() throws LexicalException, SyntaxException {
+        IToken firstToken = t;
+        Expr left;
+        Expr right;
+
+        left = comparisonExpr();
         while(isKind(IToken.Kind.AND)) {
+            IToken op = t;
             consume();
-            comparisonExpr();
+            right = comparisonExpr();
+            left = new BinaryExpr(firstToken, left, op, right);
         }
+
+        return left;
     }
 
-    public void comparisonExpr() throws LexicalException, SyntaxException {
-        additiveExpr();
+    public Expr comparisonExpr() throws LexicalException, SyntaxException {
+        IToken firstToken = t;
+        Expr left;
+        Expr right;
+
+        left = additiveExpr();
         while(isKind(IToken.Kind.GT, IToken.Kind.LT, IToken.Kind.EQUALS, IToken.Kind.NOT_EQUALS, IToken.Kind.GE, IToken.Kind.LE)) {
+            IToken op = t;
             consume();
-            additiveExpr();
+            right = additiveExpr();
+            left = new BinaryExpr(firstToken, left, op, right);
         }
+
+        return left;
     }
 
-    public void additiveExpr() throws LexicalException, SyntaxException {
-        multiplicativeExpr();
+    public Expr additiveExpr() throws LexicalException, SyntaxException {
+        IToken firstToken = t;
+        Expr left;
+        Expr right;
+
+        left = multiplicativeExpr();
         while(isKind(IToken.Kind.PLUS,IToken.Kind.MINUS)) {
+            IToken op = t;
             consume();
-            multiplicativeExpr();
+            right = multiplicativeExpr();
+            left = new BinaryExpr(firstToken, left, op, right);
         }
+
+        return left;
     }
 
-    public void multiplicativeExpr() throws LexicalException, SyntaxException {
-        unaryExpr();
+    public Expr multiplicativeExpr() throws LexicalException, SyntaxException {
+        IToken firstToken = t;
+        Expr left;
+        Expr right;
+
+        left = unaryExpr();
         while(isKind(IToken.Kind.TIMES,IToken.Kind.DIV,IToken.Kind.MOD)) {
+            IToken op = t;
             consume();
-            unaryExpr();
+            right = unaryExpr();
+            left = new BinaryExpr(firstToken, left, op, right);
         }
+
+        return left;
     }
 
-    public void unaryExpr() throws LexicalException, SyntaxException {
+    public Expr unaryExpr() throws LexicalException, SyntaxException {
+        IToken firstToken = t;
+        Expr uE;
+        Expr e;
         if(isKind(IToken.Kind.BANG,IToken.Kind.MINUS, IToken.Kind.COLOR_OP, IToken.Kind.IMAGE_OP)) {
+            IToken op = t;
             consume();
-            unaryExpr();
+            e = unaryExpr();
+            uE = new UnaryExpr(firstToken, op, e);
         } else {
-            unaryExprPostFix();
+            uE = unaryExprPostFix();
         }
+
+        return uE;
     }
 
-    public void unaryExprPostFix() throws LexicalException, SyntaxException {
-        primaryExpr();
-        pixelSel();
+    public Expr unaryExprPostFix() throws LexicalException, SyntaxException {
+        IToken firstToken = t;
+        Expr primary;
+        PixelSelector sel;
+        primary = primaryExpr();
+        sel = pixelSel();
+
+        if (sel == null) {
+            return primary;
+        }
+
+        return new UnaryExprPostfix(firstToken, primary, sel);
     }
 
-    public void primaryExpr() throws LexicalException, SyntaxException {
+    public Expr primaryExpr() throws LexicalException, SyntaxException {
+        IToken firstToken = t;
+        Expr expr;
         if(isKind(IToken.Kind.BOOLEAN_LIT, IToken.Kind.STRING_LIT, IToken.Kind.INT_LIT, IToken.Kind.FLOAT_LIT, IToken.Kind.IDENT)) {
+            expr = switch (t.getKind()) {
+                case BOOLEAN_LIT -> new BooleanLitExpr(firstToken);
+                case STRING_LIT -> new StringLitExpr(firstToken);
+                case INT_LIT -> new IntLitExpr(firstToken);
+                case FLOAT_LIT -> new FloatLitExpr(firstToken);
+                case IDENT -> new IdentExpr(firstToken);
+                default -> null;
+            };
+
             consume();
         } else if (isKind(IToken.Kind.LPAREN)) {
             consume();
-            expr();
+            expr = expr();
             match(IToken.Kind.RPAREN);
         } else {
             throw new SyntaxException("Syntax error!");
         }
+
+        return expr;
     }
 
-    public void pixelSel() throws LexicalException, SyntaxException {
+    public PixelSelector pixelSel() throws LexicalException, SyntaxException {
+        IToken firstToken = t;
+        PixelSelector node = null;
+        Expr left;
+        Expr right;
         if (isKind(IToken.Kind.LSQUARE)) {
             consume();
-            expr();
+            left = expr();
             match(IToken.Kind.COMMA);
-            expr();
+            right = expr();
             match(IToken.Kind.RSQUARE);
+            node = new PixelSelector(firstToken, left, right);
         }
+
+        return node;
     }
 }
