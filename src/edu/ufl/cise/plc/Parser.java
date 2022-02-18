@@ -59,18 +59,17 @@ public class Parser implements IParser{
 
     public Expr conditionalExpr() throws LexicalException, SyntaxException {
         IToken firstToken = t;
-        Expr conditional = null;
-        Expr cond = null;
-        Expr trueCase = null;
+        Expr conditional;
+        Expr cond;
+        Expr trueCase;
         Expr falseCase = null;
 
-        if (isKind(IToken.Kind.KW_IF)) {
-            consume();
-            match(IToken.Kind.LPAREN);
-            cond = expr();
-            match(IToken.Kind.RPAREN);
-            trueCase = expr();
-        }
+        consume();
+        match(IToken.Kind.LPAREN);
+        cond = expr();
+        match(IToken.Kind.RPAREN);
+        trueCase = expr();
+
 
         if (isKind(IToken.Kind.KW_ELSE)) {
             consume();
