@@ -3,7 +3,6 @@ package edu.ufl.cise.plc;
 import edu.ufl.cise.plc.ast.*;
 import edu.ufl.cise.plc.ast.Types.Type;
 
-import javax.naming.Name;
 import java.util.ArrayList;
 
 public class Parser implements IParser {
@@ -22,7 +21,9 @@ public class Parser implements IParser {
 
     @Override
     public ASTNode parse() throws PLCException {
-        return program();
+        ASTNode p = program();
+        match(IToken.Kind.EOF);
+        return p;
     }
 
     void match(IToken.Kind c) throws LexicalException, SyntaxException {
@@ -103,6 +104,7 @@ public class Parser implements IParser {
 
     public NameDef nameDef() throws LexicalException, SyntaxException {
         IToken firstToken = t;
+        if (!isKind(IToken.Kind.TYPE)) throw new SyntaxException("Expected type, didn't get that");
         String type = t.getText();
         consume();
 
