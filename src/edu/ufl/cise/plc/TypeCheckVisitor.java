@@ -40,7 +40,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 	SymbolTable symbolTable = new SymbolTable();  
 	Program root;
 	
-	record Pair<T0,T1>(T0 t0, T1 t1){};  //may be useful for constructing lookup tables.
+	record Pair<T0,T1>(T0 t0, T1 t1){};  // may be useful for constructing lookup tables.
 	
 	private void check(boolean condition, ASTNode node, String message) throws TypeCheckException {
 		if (!condition) {
