@@ -16,6 +16,7 @@ public class NameDefWithDim extends NameDef{
 		this.dim = dim;
 	}
 
+	@Override
 	public Dimension getDim() {
 		return dim;
 	}
@@ -30,5 +31,5 @@ public class NameDefWithDim extends NameDef{
 		return "NameDefWithDim [dim=" + dim + ", name=" + name + ", type=" + type + "]";
 	}
 	
-
+	
 }

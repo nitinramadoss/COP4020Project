@@ -30,13 +30,22 @@ public class VarDeclaration extends Declaration {
 		return expr;
 	}
 
-	public Type getType() {
-		return nameDef.getType();
-	}
 	
 	public String getName() {
 		return nameDef.getName();
 	}
+	
+	@Override
+	public Type getType() {
+		return nameDef.getType();
+	}
+
+	@Override
+	public Dimension getDim() {
+		return nameDef.getDim();
+	}
+
+
 	
 	@Override
 	public Object visit(ASTVisitor v, Object arg) throws Exception {
@@ -47,6 +56,9 @@ public class VarDeclaration extends Declaration {
 	public String toString() {
 		return "Declaration [nameDef=" + nameDef + ", expr=" + expr + "]";
 	}
+
+
+
 
 
 }

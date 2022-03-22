@@ -11,13 +11,13 @@ public class NameDef extends Declaration {
 	public NameDef(IToken firstToken, String type, String name) {
 		super(firstToken);
 		this.name = name;
-		this.type = Type.toType(type);
+		this.type = Types.toType(type);
 	}
 	
 	public NameDef(IToken firstToken, IToken type, IToken name) {
 		super(firstToken);
 		this.name = name.getText();
-		this.type = Type.toType(type.getText());
+		this.type = Types.toType(type.getText());
 	}
 	
 	public String getName() {
@@ -36,6 +36,11 @@ public class NameDef extends Declaration {
 	@Override
 	public String toString() {
 		return "NameDef [name=" + name + ", type=" + type + "]";
+	}
+
+	@Override
+	public Dimension getDim() {
+		return null;
 	}
 	
 	

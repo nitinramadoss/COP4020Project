@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ef58fd28-b9f4-4d89-a35f-7b258833c9de" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ASTNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ASTNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ASTVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ASTVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/AssignmentStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/AssignmentStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/BinaryExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/BinaryExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/BooleanLitExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/BooleanLitExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ColorConstExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ColorConstExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ColorExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ColorExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ConditionalExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ConditionalExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ConsoleExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ConsoleExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Declaration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Declaration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Dimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Dimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Expr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Expr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/FloatLitExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/FloatLitExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/IdentExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/IdentExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/IntLitExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/IntLitExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/NameDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/NameDef.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/NameDefWithDim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/NameDefWithDim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/PixelSelector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/PixelSelector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ReadStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ReadStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ReturnStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/ReturnStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Statement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Statement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/StringLitExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/StringLitExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Types.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Types.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/UnaryExpr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/UnaryExpr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/UnaryExprPostfix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/UnaryExprPostfix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/VarDeclaration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/VarDeclaration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/WriteStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/WriteStatement.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectId" id="26lG92QAwg8qiss9K3DqR5ZfhFI" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Assignment3StarterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="COP4020Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.Assignment3StarterTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.Assignment3StarterTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ef58fd28-b9f4-4d89-a35f-7b258833c9de" name="Changes" comment="" />
+      <created>1647990604776</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1647990604776</updated>
+    </task>
+    <servers />
+  </component>
+</project>

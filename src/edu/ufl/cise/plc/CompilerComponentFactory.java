@@ -23,4 +23,8 @@ public class CompilerComponentFactory {
 	public static IParser getParser(String input) {
 		return new Parser(input);
 	}
+
+    public static Object getTypeChecker() {
+		return 1;
+    }
 }
