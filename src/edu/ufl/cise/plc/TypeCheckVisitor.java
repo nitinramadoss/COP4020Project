@@ -40,7 +40,9 @@ public class TypeCheckVisitor implements ASTVisitor {
 	SymbolTable symbolTable = new SymbolTable();  
 	Program root;
 	
-	record Pair<T0,T1>(T0 t0, T1 t1){};  // may be useful for constructing lookup tables.
+	record Pair<T0,T1>(T0 t0, T1 t1) {
+
+	};  // may be useful for constructing lookup tables.
 	
 	private void check(boolean condition, ASTNode node, String message) throws TypeCheckException {
 		if (!condition) {
@@ -59,14 +61,14 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitStringLitExpr(StringLitExpr stringLitExpr, Object arg) throws Exception {
-		//TODO:  implement this method
-		throw new UnsupportedOperationException("Unimplemented visit method.");
+		stringLitExpr.setType(Type.STRING);
+		return Type.STRING;
 	}
 
 	@Override
 	public Object visitIntLitExpr(IntLitExpr intLitExpr, Object arg) throws Exception {
-		//TODO:  implement this method
-		throw new UnsupportedOperationException("Unimplemented visit method.");
+		intLitExpr.setType(Type.INT);
+		return Type.INT;
 	}
 
 	@Override
@@ -77,8 +79,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitColorConstExpr(ColorConstExpr colorConstExpr, Object arg) throws Exception {
-		//TODO:  implement this method
-		throw new UnsupportedOperationException("Unimplemented visit method.");
+		colorConstExpr.setType(Type.COLOR);
+		return Type.COLOR;
 	}
 
 	@Override
