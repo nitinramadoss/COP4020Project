@@ -156,8 +156,12 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitDimension(Dimension dimension, Object arg) throws Exception {
-		//TODO  implement this method
-		throw new UnsupportedOperationException();
+		Type expr1Type = dimension.getWidth().getType();
+		Type expr2Type = dimension.getHeight().getType();
+
+		check(expr1Type == Type.INT, dimension, "Width is not of type int!");
+		check(expr2Type == Type.INT, dimension, "Height is not of type int!");
+		return null;
 	}
 
 	@Override
@@ -199,8 +203,26 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitVarDeclaration(VarDeclaration declaration, Object arg) throws Exception {
-		//TODO:  implement this method
-		throw new UnsupportedOperationException("Unimplemented visit method.");
+		NameDef nameDef = declaration.getNameDef();
+		boolean isInitialized = nameDef.isInitialized();
+		if (isInitialized) {
+			Type nameDefType = nameDef.getType();
+			Type exprType = declaration.getExpr().getType();
+
+			if (nameDefType == Type.INT && exprType == Type.FLOAT) {
+
+			} else if (nameDefType == Type.FLOAT && exprType == Type.INT) {
+
+			} else if (nameDefType == Type.INT && exprType == Type.COLOR) {
+
+			} else if (nameDefType == Type.COLOR && exprType == Type.INT) {
+
+			}
+		} else {
+			return declaration.visit(this, arg);
+		}
+
+		return nameDef.getType();
 	}
 
 

@@ -8,7 +8,7 @@ public class ReadStatement extends Statement {
 	final String name;
 	final PixelSelector selector;
 	final Expr source;
-//	Type targetType;
+	Type targetType;
 	Declaration targetDec;
 	
 	public ReadStatement(IToken firstToken, String name, PixelSelector selector, Expr source) {
@@ -31,13 +31,13 @@ public class ReadStatement extends Statement {
 		return source;
 	}
 
-//	public Type getTargetType() {
-//		return targetType;
-//	}
-//
-//	public void setTargetType(Type targetType) {
-//		this.targetType = targetType;
-//	}
+	public Type getTargetType() {
+		return targetType;
+	}
+
+	public void setTargetType(Type targetType) {
+		this.targetType = targetType;
+	}
 	public Declaration getTargetDec() {
 		return targetDec;
 	}	
