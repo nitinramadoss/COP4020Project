@@ -1,9 +1,9 @@
 package edu.ufl.cise.plc.ast;
 
+import java.util.List;
+
 import edu.ufl.cise.plc.IToken;
 import edu.ufl.cise.plc.ast.Types.Type;
-
-import java.util.List;
 
 public class Program extends ASTNode {	
 	

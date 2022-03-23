@@ -20,6 +20,10 @@ public abstract class ASTNode  {
 		return firstToken.getText();
 	}
 	
+	public IToken getFirstToken() {
+		return firstToken;
+	}
+	
 	public abstract Object visit(ASTVisitor v, Object arg) throws  Exception;
 
 	

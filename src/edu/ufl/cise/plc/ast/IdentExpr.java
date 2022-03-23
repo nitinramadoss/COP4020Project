@@ -4,7 +4,8 @@ import edu.ufl.cise.plc.IToken;
 
 public class IdentExpr extends Expr {
 	
-	
+	Declaration dec;
+		
 	public IdentExpr(IToken firstToken) {
 		super(firstToken);
 	}
@@ -16,7 +17,16 @@ public class IdentExpr extends Expr {
 
 	@Override
 	public String toString() {
-		return "IdentExpr[" + firstToken.getText() + "]";
+		return "IdentExpr [dec=" + dec + ", type=" + type + ", coerceTo=" + coerceTo + "]";
 	}
 
+	public Declaration getDec() {
+		return dec;
+	}
+
+	public void setDec(Declaration dec) {
+		this.dec = dec;
+	}
+
+	
 }
