@@ -156,11 +156,11 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitDimension(Dimension dimension, Object arg) throws Exception {
-		Type expr1Type = dimension.getWidth().getType();
-		Type expr2Type = dimension.getHeight().getType();
+		Type expr1Type = (Type) dimension.getWidth().visit(this, arg);
+		Type expr2Type = (Type) dimension.getHeight().visit(this, arg);
 
-		check(expr1Type == Type.INT, dimension, "Width is not of type int!");
-		check(expr2Type == Type.INT, dimension, "Height is not of type int!");
+		check(expr1Type == Type.INT, dimension.getWidth(), "Width is not of type int!");
+		check(expr2Type == Type.INT, dimension.getHeight(), "Height is not of type int!");
 		return null;
 	}
 
@@ -203,26 +203,39 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitVarDeclaration(VarDeclaration declaration, Object arg) throws Exception {
-		NameDef nameDef = declaration.getNameDef();
-		boolean isInitialized = nameDef.isInitialized();
+		Type nameType = (Type) declaration.getNameDef().visit(this, arg);
+		boolean isInitialized = declaration.getNameDef().isInitialized();
+
 		if (isInitialized) {
-			Type nameDefType = nameDef.getType();
-			Type exprType = declaration.getExpr().getType();
+			Expr expr = declaration.getExpr();
+			Type exprType = expr.getType();
 
-			if (nameDefType == Type.INT && exprType == Type.FLOAT) {
-
-			} else if (nameDefType == Type.FLOAT && exprType == Type.INT) {
-
-			} else if (nameDefType == Type.INT && exprType == Type.COLOR) {
-
-			} else if (nameDefType == Type.COLOR && exprType == Type.INT) {
-
+			if (nameType == Type.IMAGE) {
+				if (exprType == Type.INT) {
+					expr.setCoerceTo(Type.COLOR);
+				} else if (exprType == Type.FLOAT) {
+					expr.setCoerceTo(Type.COLORFLOAT);
+				}
 			}
-		} else {
-			return declaration.visit(this, arg);
+
+			if (nameType == Type.INT && exprType == Type.FLOAT) {
+				expr.setCoerceTo(Type.INT);
+			} else if (nameType == Type.FLOAT && exprType == Type.INT) {
+				expr.setCoerceTo(Type.FLOAT);
+			} else if (nameType == Type.INT && exprType == Type.COLOR) {
+				expr.setCoerceTo(Type.INT);
+			} else if (nameType == Type.COLOR && exprType == Type.INT) {
+				expr.setCoerceTo(Type.COLOR);
+			}
+
+			boolean valid1 = nameType == Type.IMAGE && expr.getCoerceTo() == Type.COLOR || nameType == Type.IMAGE && exprType == Type.COLOR ||
+					nameType == Type.IMAGE && expr.getCoerceTo() == Type.COLORFLOAT || nameType == Type.IMAGE && exprType == Type.COLORFLOAT;
+			boolean valid2 = nameType == expr.getCoerceTo() || nameType == exprType;
+
+			check(valid1 || valid2, declaration, "Types of LHS and RHS are not compatible!");
 		}
 
-		return nameDef.getType();
+		return declaration.getNameDef().getType();
 	}
 
 
@@ -243,14 +256,18 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitNameDef(NameDef nameDef, Object arg) throws Exception {
-		//TODO:  implement this method
-		throw new UnsupportedOperationException();
+		boolean unique = symbolTable.insert(nameDef.getName(), nameDef);
+		check(unique, nameDef, "Variable declared twice!");
+
+		return nameDef.getType();
 	}
 
 	@Override
 	public Object visitNameDefWithDim(NameDefWithDim nameDefWithDim, Object arg) throws Exception {
-		//TODO:  implement this method
-		throw new UnsupportedOperationException();
+		boolean unique = symbolTable.insert(nameDefWithDim.getName(), nameDefWithDim);
+		check(unique, nameDefWithDim, "Variable declared twice!");
+
+		return nameDefWithDim.getType();
 	}
  
 	@Override
