@@ -25,6 +25,6 @@ public class CompilerComponentFactory {
 	}
 
     public static Object getTypeChecker() {
-		return 1;
+		return new TypeCheckVisitor();
     }
 }
