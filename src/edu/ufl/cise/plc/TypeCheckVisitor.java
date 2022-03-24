@@ -5,39 +5,16 @@ import java.util.Map;
 import java.util.Set;
 
 import edu.ufl.cise.plc.IToken.Kind;
-import edu.ufl.cise.plc.ast.ASTNode;
-import edu.ufl.cise.plc.ast.ASTVisitor;
-import edu.ufl.cise.plc.ast.AssignmentStatement;
-import edu.ufl.cise.plc.ast.BinaryExpr;
-import edu.ufl.cise.plc.ast.BooleanLitExpr;
-import edu.ufl.cise.plc.ast.ColorConstExpr;
-import edu.ufl.cise.plc.ast.ColorExpr;
-import edu.ufl.cise.plc.ast.ConditionalExpr;
-import edu.ufl.cise.plc.ast.ConsoleExpr;
-import edu.ufl.cise.plc.ast.Declaration;
-import edu.ufl.cise.plc.ast.Dimension;
-import edu.ufl.cise.plc.ast.Expr;
-import edu.ufl.cise.plc.ast.FloatLitExpr;
-import edu.ufl.cise.plc.ast.IdentExpr;
-import edu.ufl.cise.plc.ast.IntLitExpr;
-import edu.ufl.cise.plc.ast.NameDef;
-import edu.ufl.cise.plc.ast.NameDefWithDim;
-import edu.ufl.cise.plc.ast.PixelSelector;
-import edu.ufl.cise.plc.ast.Program;
-import edu.ufl.cise.plc.ast.ReadStatement;
-import edu.ufl.cise.plc.ast.ReturnStatement;
-import edu.ufl.cise.plc.ast.StringLitExpr;
+import edu.ufl.cise.plc.ast.*;
 import edu.ufl.cise.plc.ast.Types.Type;
-import edu.ufl.cise.plc.ast.UnaryExpr;
-import edu.ufl.cise.plc.ast.UnaryExprPostfix;
-import edu.ufl.cise.plc.ast.VarDeclaration;
-import edu.ufl.cise.plc.ast.WriteStatement;
+
+import javax.naming.Name;
 
 import static edu.ufl.cise.plc.ast.Types.Type.*;
 
 public class TypeCheckVisitor implements ASTVisitor {
 
-	SymbolTable symbolTable = new SymbolTable();  
+	SymbolTable symbolTable = new SymbolTable();
 	Program root;
 	
 	record Pair<T0,T1>(T0 t0, T1 t1) {
@@ -138,20 +115,128 @@ public class TypeCheckVisitor implements ASTVisitor {
 	//This method has several cases. Work incrementally and test as you go. 
 	@Override
 	public Object visitBinaryExpr(BinaryExpr binaryExpr, Object arg) throws Exception {
-		//TODO:  implement this method
-		throw new UnsupportedOperationException("Unimplemented visit method.");
+		Kind op = binaryExpr.getOp().getKind();
+		Type lType = (Type) binaryExpr.getLeft().visit(this, arg);
+		Type rType = (Type) binaryExpr.getRight().visit(this, arg);
+
+		Type resultType = null;
+		switch (op) { // EQUALS, NOT_EQUALS, PLUS, MINUS, TIMES, DIV, MOD, LT, LE, GT, GE
+			case AND, OR -> {
+				check(lType == Type.BOOLEAN && rType == Type.BOOLEAN, binaryExpr, "Booleans required");
+				resultType = Type.BOOLEAN;
+			}
+			case EQUALS, NOT_EQUALS -> {
+				check(lType == rType, binaryExpr, "Incompatible types for comparison");
+				resultType = Type.BOOLEAN;
+			}
+			case PLUS, MINUS -> {
+				if (lType == Type.INT && rType == Type.INT) {
+					resultType = Type.INT;
+				}
+				else if (lType == Type.FLOAT && rType == Type.FLOAT) {
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.FLOAT && rType == Type.INT) {
+					// Coerce to float
+					binaryExpr.getRight().setCoerceTo(Type.FLOAT);
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.INT && rType == Type.FLOAT) {
+					// Coerce to float
+					binaryExpr.getLeft().setCoerceTo(Type.FLOAT);
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.COLOR && rType == Type.COLOR) {
+					resultType = Type.COLOR;
+				}
+				else if (lType == Type.COLORFLOAT && rType == Type.COLORFLOAT) {
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.COLORFLOAT && rType == Type.COLOR) {
+					// Coerce to colorfloat
+					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.COLOR && rType == Type.COLORFLOAT) {
+					// Coerce to colorfloat
+					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.IMAGE && rType == Type.IMAGE) {
+					resultType = Type.IMAGE;
+				}
+				else check(false, binaryExpr, "incompatible types for operator");
+			}
+			case TIMES, DIV, MOD -> {
+				if (lType == Type.IMAGE && rType == Type.INT) {
+					resultType = Type.IMAGE;
+				}
+				else if (lType == Type.IMAGE && rType == Type.FLOAT) {
+					resultType = Type.IMAGE;
+				}
+				else if (lType == Type.INT && rType == Type.COLOR) {
+					binaryExpr.getLeft().setCoerceTo(Type.COLOR);
+					resultType = Type.COLOR;
+				}
+				else if (lType == Type.COLOR && rType == Type.INT) {
+					binaryExpr.getRight().setCoerceTo(Type.COLOR);
+					resultType = Type.COLOR;
+				}
+				else if (lType == Type.FLOAT && rType == Type.COLOR) {
+					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
+					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
+					resultType = Type.COLORFLOAT;
+				}
+				else check(false, binaryExpr, "incompatible types for operator");
+			}
+			case LT, LE, GT, GE -> {
+				if (lType == Type.INT && rType == Type.INT) {
+					resultType = Type.BOOLEAN;
+				}
+				else if (lType == Type.FLOAT && rType == Type.FLOAT) {
+					resultType = Type.BOOLEAN;
+				}
+				else if (lType == Type.INT && rType == Type.FLOAT) {
+					binaryExpr.getLeft().setCoerceTo(Type.FLOAT);
+					resultType = Type.BOOLEAN;
+				}
+				else if (lType == Type.FLOAT && rType == Type.INT) {
+					binaryExpr.getRight().setCoerceTo(Type.FLOAT);
+					resultType = Type.BOOLEAN;
+				}
+				else check(false, binaryExpr, "incompatible types for operator");
+			}
+			default -> check(false, binaryExpr, "use a real operator");
+		}
+		binaryExpr.setType(resultType);
+		return resultType;
 	}
 
 	@Override
 	public Object visitIdentExpr(IdentExpr identExpr, Object arg) throws Exception {
-		//TODO:  implement this method
-		throw new UnsupportedOperationException("Unimplemented visit method.");
+		String name = identExpr.getText();
+		Declaration dec = symbolTable.lookup(name);
+		check(dec != null, identExpr, "Undefined identifier " + name);
+		check(dec.isInitialized(), identExpr, "Uninitialized identifier used: " + name);
+
+		identExpr.setDec(dec); // Useful later, apparently
+
+		Type type = dec.getType();
+		identExpr.setType(type);
+		return type;
 	}
 
 	@Override
 	public Object visitConditionalExpr(ConditionalExpr conditionalExpr, Object arg) throws Exception {
-		//TODO  implement this method
-		throw new UnsupportedOperationException();
+		Type conditionCase = (Type) symbolTable.lookup(conditionalExpr.getCondition().getText()).visit(this, arg);
+		Type trueCase = (Type) symbolTable.lookup(conditionalExpr.getTrueCase().getText()).visit(this, arg);
+		Type falseCase = (Type) symbolTable.lookup(conditionalExpr.getFalseCase().getText()).visit(this, arg);
+
+		check(conditionCase == Type.BOOLEAN, conditionalExpr, "Condition case must be boolean");
+		check(trueCase == falseCase, conditionalExpr, "True case must equal false case");
+
+		conditionalExpr.setType(trueCase);
+		return trueCase;
 	}
 
 	@Override
@@ -181,6 +266,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 	//Work incrementally and systematically, testing as you go.  
 	public Object visitAssignmentStatement(AssignmentStatement assignmentStatement, Object arg) throws Exception {
 		//TODO:  implement this method
+		Type targetType = symbolTable.lookup(assignmentStatement.getName()).getType();
 		throw new UnsupportedOperationException("Unimplemented visit method.");
 	}
 
@@ -240,17 +326,27 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 
 	@Override
-	public Object visitProgram(Program program, Object arg) throws Exception {		
-		//TODO:  this method is incomplete, finish it.  
+	public Object visitProgram(Program program, Object arg) throws Exception {
 		
-		//Save root of AST so return type can be accessed in return statements
+		// Save root of AST so return type can be accessed in return statements
 		root = program;
-		
-		//Check declarations and statements
+
+		// Add program name to symbol table (Mark name as initialized)
+		String programName = program.getName();
+		symbolTable.setProgramName(programName);
+
+		// Check parameters
+		List<NameDef> parameters = program.getParams();
+		for (NameDef nameDef : parameters) {
+			nameDef.visit(this, arg);
+		}
+
+		// Check declarations and statements
 		List<ASTNode> decsAndStatements = program.getDecsAndStatements();
 		for (ASTNode node : decsAndStatements) {
 			node.visit(this, arg);
 		}
+
 		return program;
 	}
 
