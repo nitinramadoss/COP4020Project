@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.PrintStream;
 import java.util.List;
 
+import edu.ufl.cise.plc.ast.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
@@ -24,18 +25,7 @@ import edu.ufl.cise.plc.IParser;
 import edu.ufl.cise.plc.SyntaxException;
 import edu.ufl.cise.plc.TypeCheckException;
 import edu.ufl.cise.plc.TypeCheckVisitor;
-import edu.ufl.cise.plc.ast.ASTNode;
-import edu.ufl.cise.plc.ast.BinaryExpr;
-import edu.ufl.cise.plc.ast.BooleanLitExpr;
-import edu.ufl.cise.plc.ast.ColorExpr;
-import edu.ufl.cise.plc.ast.Expr;
-import edu.ufl.cise.plc.ast.IdentExpr;
-import edu.ufl.cise.plc.ast.IntLitExpr;
-import edu.ufl.cise.plc.ast.NameDef;
-import edu.ufl.cise.plc.ast.Program;
-import edu.ufl.cise.plc.ast.ReturnStatement;
 import edu.ufl.cise.plc.ast.Types.Type;
-import edu.ufl.cise.plc.ast.VarDeclaration;
 
 class StarterTests {
 	private ASTNode getAST(String input) throws Exception {
@@ -867,5 +857,31 @@ class StarterTests {
 		show("Expected TypeCheckException:     " + e);
 	}
 
+	@DisplayName("test33")
+	@Test
+	public void test33(TestInfo testInfo) throws Exception{
+		String input = """
+                        image test(int size)
+                            image[size,size] a;
+                            a = 10;
+                            image b = a;
+                            ^ a;
+ 
+                        """;
+		show("-------------");
+		show(testInfo.getDisplayName());
+		show(input);
+		ASTNode ast = getAST(input);
+
+		checkTypes(ast);
+
+		List<ASTNode> decsAndStatements = ((Program) ast).getDecsAndStatements();
+		ASTNode var0 = decsAndStatements.get(1);
+		Expr var1 = ((AssignmentStatement) var0).getExpr();
+		assertThat("", var1, instanceOf(IntLitExpr.class));
+		assertEquals(Type.INT, var1.getType());
+		assertEquals(Type.COLOR, var1.getCoerceTo());
+		show(ast);
+	}
 
 }
