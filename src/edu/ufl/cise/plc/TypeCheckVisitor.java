@@ -312,7 +312,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 			check(assignmentCompatible, assignmentStatement, "Types are not assignment compatible");
 		}
 		else if (assignmentStatement.getSelector() != null) {
-			check(initialized, dec, "This part has not been done yet!");
+			check(false, dec, "This part has not been done yet!");
 		}
 
 
