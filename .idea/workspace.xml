@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef58fd28-b9f4-4d89-a35f-7b258833c9de" name="Changes" comment="Returns TypeCheckVisitor so tests can run properly">
+    <list default="true" id="ef58fd28-b9f4-4d89-a35f-7b258833c9de" name="Changes" comment="Adds clarity in error case">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/Assignment4StarterTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/Assignment4StarterTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +114,35 @@
       <option name="project" value="LOCAL" />
       <updated>1648076988189</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="boom, crackle, pop">
+      <created>1648089001873</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1648089001873</updated>
+    </task>
+    <task id="LOCAL-00003" summary="adds incomplete warning">
+      <created>1648089042430</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1648089042430</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Adds new tests from doc">
+      <created>1648162905837</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1648162905837</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Adds clarity in error case">
+      <created>1648163737722</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1648163737722</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -131,7 +158,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Returns TypeCheckVisitor so tests can run properly" />
-    <option name="LAST_COMMIT_MESSAGE" value="Returns TypeCheckVisitor so tests can run properly" />
+    <MESSAGE value="boom, crackle, pop" />
+    <MESSAGE value="adds incomplete warning" />
+    <MESSAGE value="Adds new tests from doc" />
+    <MESSAGE value="Adds clarity in error case" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adds clarity in error case" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
