@@ -883,6 +883,7 @@ class StarterTests {
 		assertEquals(Type.COLOR, var1.getCoerceTo());
 		show(ast);
 	}
+
 	@DisplayName("test34")
 	@Test
 	public void test34(TestInfo testInfo) throws Exception{
@@ -1076,12 +1077,4 @@ class StarterTests {
 
 
 	}
-
-
-
-
-
-
-
-
 }
