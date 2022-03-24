@@ -265,8 +265,28 @@ public class TypeCheckVisitor implements ASTVisitor {
 	//This method several cases--you don't have to implement them all at once.
 	//Work incrementally and systematically, testing as you go.  
 	public Object visitAssignmentStatement(AssignmentStatement assignmentStatement, Object arg) throws Exception {
-		//TODO:  implement this method
-		Type targetType = symbolTable.lookup(assignmentStatement.getName()).getType();
+		Type targetType = (Type) symbolTable.lookup(assignmentStatement.getName()).visit(this, arg);
+		Declaration dec = assignmentStatement.getTargetDec();
+
+		boolean initialized =  dec.isInitialized();
+		check(initialized, dec, "Target variable is not initialized!");
+
+		if (targetType != Type.IMAGE) {
+			// check not pixel selector on lhs
+			Expr expr = assignmentStatement.getExpr();
+			Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
+
+			if (targetType == Type.INT && exprType == Type.FLOAT) {
+				expr.setCoerceTo(Type.INT);
+			} else if (targetType == Type.FLOAT && exprType == Type.INT) {
+				expr.setCoerceTo(Type.FLOAT);
+			} else if (targetType == Type.INT && exprType == Type.COLOR) {
+				expr.setCoerceTo(Type.INT);
+			} else if (targetType == Type.COLOR && exprType == Type.INT) {
+				expr.setCoerceTo(Type.COLOR);
+			}
+
+		}
 		throw new UnsupportedOperationException("Unimplemented visit method.");
 	}
 
@@ -283,8 +303,17 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitReadStatement(ReadStatement readStatement, Object arg) throws Exception {
-		//TODO:  implement this method
-		throw new UnsupportedOperationException("Unimplemented visit method.");
+		Type targetType = (Type) symbolTable.lookup(readStatement.getName()).visit(this, arg);
+		check(targetType != null, readStatement.getTargetDec(), "Target not declared!");
+		check(readStatement.getSelector() == null, readStatement.getSelector(), "Cannot have a pixel selector!");
+
+		Type exprType = (Type) readStatement.getSource().visit(this, arg);
+
+		check(exprType == Type.CONSOLE || exprType == Type.STRING, readStatement.getSource(), "RHS must be of type console or string!");
+
+		readStatement.getTargetDec().isInitialized();
+
+		return null;
 	}
 
 	@Override
@@ -339,6 +368,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 		List<NameDef> parameters = program.getParams();
 		for (NameDef nameDef : parameters) {
 			nameDef.visit(this, arg);
+			nameDef.setInitialized(true);
 		}
 
 		// Check declarations and statements
