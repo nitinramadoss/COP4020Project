@@ -296,6 +296,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 		}
 		else if (assignmentStatement.getSelector() == null) {
 			boolean assignmentCompatible = exprType == targetType;
+
 			if (exprType == Type.INT) {
 				expr.setCoerceTo(Type.COLOR);
 				assignmentCompatible = true;
@@ -307,7 +308,10 @@ public class TypeCheckVisitor implements ASTVisitor {
 			} else if (exprType == Type.COLORFLOAT) {
 				assignmentCompatible = true;
 			}
-
+			check(assignmentCompatible, assignmentStatement, "Types are not assignment compatible");
+		}
+		else if (assignmentStatement.getSelector() != null) {
+			check(initialized, dec, "This part has not been done yet!");
 		}
 
 
