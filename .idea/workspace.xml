@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef58fd28-b9f4-4d89-a35f-7b258833c9de" name="Changes" comment="">
+    <list default="true" id="ef58fd28-b9f4-4d89-a35f-7b258833c9de" name="Changes" comment="Returns TypeCheckVisitor so tests can run properly">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CompilerComponentFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CompilerComponentFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/SymbolTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,7 +28,6 @@
     <option name="version" value="2" />
   </component>
   <component name="ProjectId" id="26lG92QAwg8qiss9K3DqR5ZfhFI" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -38,13 +39,27 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.StarterTests">
+    <configuration name="Assignment3StarterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="COP4020Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.Assignment3StarterTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="StarterTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="COP4020Project" />
       <extension name="coverage">
@@ -55,7 +70,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
       <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
-      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -64,6 +78,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.StarterTests" />
+        <item itemvalue="JUnit.Assignment3StarterTest" />
       </list>
     </recent_temporary>
   </component>
@@ -76,6 +91,14 @@
       <option name="presentableId" value="Default" />
       <updated>1647990604776</updated>
     </task>
+    <task id="LOCAL-00001" summary="Returns TypeCheckVisitor so tests can run properly">
+      <created>1648076988189</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1648076988189</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -88,5 +111,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Returns TypeCheckVisitor so tests can run properly" />
+    <option name="LAST_COMMIT_MESSAGE" value="Returns TypeCheckVisitor so tests can run properly" />
   </component>
 </project>
