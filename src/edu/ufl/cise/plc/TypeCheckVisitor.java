@@ -103,7 +103,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 		Kind op = unaryExpr.getOp().getKind();
 		Type exprType = (Type) unaryExpr.getExpr().visit(this, arg);
 		//Use the lookup table above to both check for a legal combination of operator and expression, and to get result type.
-		Type resultType = unaryExprs.get(new Pair<Kind,Type>(op,exprType));
+		Type resultType = unaryExprs.get(new Pair<>(op, exprType));
 		check(resultType != null, unaryExpr, "incompatible types for unaryExpr");
 		//Save the type of the unary expression in the AST node for use in code generation later. 
 		unaryExpr.setType(resultType);
@@ -265,28 +265,54 @@ public class TypeCheckVisitor implements ASTVisitor {
 	//This method several cases--you don't have to implement them all at once.
 	//Work incrementally and systematically, testing as you go.  
 	public Object visitAssignmentStatement(AssignmentStatement assignmentStatement, Object arg) throws Exception {
+		// TODO:  implement this method
+
 		Type targetType = (Type) symbolTable.lookup(assignmentStatement.getName()).visit(this, arg);
 		Declaration dec = assignmentStatement.getTargetDec();
 
-		boolean initialized =  dec.isInitialized();
+		boolean initialized = dec.isInitialized();
 		check(initialized, dec, "Target variable is not initialized!");
 
+		Expr expr = assignmentStatement.getExpr();
+		Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
+
 		if (targetType != Type.IMAGE) {
-			// check not pixel selector on lhs
-			Expr expr = assignmentStatement.getExpr();
-			Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
+			// check not pixel selector on lhs?
+			boolean assignmentCompatible = targetType == exprType;
 
 			if (targetType == Type.INT && exprType == Type.FLOAT) {
 				expr.setCoerceTo(Type.INT);
+				assignmentCompatible = true;
 			} else if (targetType == Type.FLOAT && exprType == Type.INT) {
 				expr.setCoerceTo(Type.FLOAT);
+				assignmentCompatible = true;
 			} else if (targetType == Type.INT && exprType == Type.COLOR) {
 				expr.setCoerceTo(Type.INT);
+				assignmentCompatible = true;
 			} else if (targetType == Type.COLOR && exprType == Type.INT) {
 				expr.setCoerceTo(Type.COLOR);
+				assignmentCompatible = true;
+			}
+			check(assignmentCompatible, assignmentStatement, "Types are not assignment compatible");
+		}
+		else if (assignmentStatement.getSelector() == null) {
+			boolean assignmentCompatible = exprType == targetType;
+			if (exprType == Type.INT) {
+				expr.setCoerceTo(Type.COLOR);
+				assignmentCompatible = true;
+			} else if (exprType == Type.FLOAT) {
+				expr.setCoerceTo(Type.COLORFLOAT);
+				assignmentCompatible = true;
+			} else if (exprType == Type.COLOR) {
+				assignmentCompatible = true;
+			} else if (exprType == Type.COLORFLOAT) {
+				assignmentCompatible = true;
 			}
 
 		}
+
+
+
 		throw new UnsupportedOperationException("Unimplemented visit method.");
 	}
 

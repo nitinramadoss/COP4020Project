@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ef58fd28-b9f4-4d89-a35f-7b258833c9de" name="Changes" comment="Returns TypeCheckVisitor so tests can run properly">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CompilerComponentFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CompilerComponentFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/SymbolTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" afterDir="false" />
     </list>
@@ -43,6 +42,7 @@
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager" selected="JUnit.StarterTests">
     <configuration name="Assignment3StarterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">

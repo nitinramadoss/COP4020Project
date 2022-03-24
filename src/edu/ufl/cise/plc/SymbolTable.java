@@ -27,8 +27,6 @@ public class SymbolTable {
     public boolean contains(String name) {
         return entries.containsKey(name);
     }
-
-
 }
 
 
