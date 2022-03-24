@@ -866,6 +866,4 @@ class StarterTests {
 		});
 		show("Expected TypeCheckException:     " + e);
 	}
-
-
 }

@@ -228,15 +228,16 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitConditionalExpr(ConditionalExpr conditionalExpr, Object arg) throws Exception {
-		Type conditionCase = (Type) symbolTable.lookup(conditionalExpr.getCondition().getText()).visit(this, arg);
-		Type trueCase = (Type) symbolTable.lookup(conditionalExpr.getTrueCase().getText()).visit(this, arg);
-		Type falseCase = (Type) symbolTable.lookup(conditionalExpr.getFalseCase().getText()).visit(this, arg);
+		Type conditionalType = (Type) conditionalExpr.getCondition().visit(this, arg);
 
-		check(conditionCase == Type.BOOLEAN, conditionalExpr, "Condition case must be boolean");
-		check(trueCase == falseCase, conditionalExpr, "True case must equal false case");
+		Type trueCaseType = (Type) conditionalExpr.getTrueCase().visit(this, arg);
+		Type falseCaseType = (Type) conditionalExpr.getFalseCase().visit(this, arg);
 
-		conditionalExpr.setType(trueCase);
-		return trueCase;
+		check(conditionalType == Type.BOOLEAN, conditionalExpr, "Condition case must be boolean!");
+		check(trueCaseType == falseCaseType, conditionalExpr, "True case type must equal false case type!");
+
+		conditionalExpr.setType(trueCaseType);
+		return trueCaseType;
 	}
 
 	@Override
@@ -265,8 +266,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 	//This method several cases--you don't have to implement them all at once.
 	//Work incrementally and systematically, testing as you go.  
 	public Object visitAssignmentStatement(AssignmentStatement assignmentStatement, Object arg) throws Exception {
-		// TODO:  implement this method
-
 		Type targetType = (Type) symbolTable.lookup(assignmentStatement.getName()).visit(this, arg);
 		Declaration dec = assignmentStatement.getTargetDec();
 

@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef58fd28-b9f4-4d89-a35f-7b258833c9de" name="Changes" comment="Returns TypeCheckVisitor so tests can run properly">
+    <list default="true" id="ef58fd28-b9f4-4d89-a35f-7b258833c9de" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22__4_57_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22__4_57_PM__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22__9_36_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22__9_36_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/SymbolTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/Assignment4StarterTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/Assignment4StarterTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,6 +29,7 @@
     <option name="version" value="2" />
   </component>
   <component name="ProjectId" id="26lG92QAwg8qiss9K3DqR5ZfhFI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -75,9 +78,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="StarterTests.test21" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="COP4020Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
+      <option name="METHOD_NAME" value="test21(org.junit.jupiter.api.TestInfo)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.Assignment3StarterTest" />
+      <item itemvalue="JUnit.StarterTests" />
+      <item itemvalue="JUnit.StarterTests.test21" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.StarterTests" />
+        <item itemvalue="JUnit.StarterTests.test21" />
         <item itemvalue="JUnit.Assignment3StarterTest" />
       </list>
     </recent_temporary>
