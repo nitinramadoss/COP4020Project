@@ -592,6 +592,53 @@ class StarterTests {
 		show("Expected TypeCheckException:     " + e);
 	}
 
+	@DisplayName("test19c")
+	@Test
+	public void test19c(TestInfo testInfo) throws Exception {
+		String input = """
+                        image test(int size)
+                            image[size,size] a;
+                            a[x,y] = 5;
+                            ^ a;
+ 
+                    """;
+		show("-------------");
+		show(testInfo.getDisplayName());
+		show(input);
+		ASTNode ast = getAST(input);
+		checkTypes(ast);
+		List<ASTNode> decsAndStatements = ((Program) ast).getDecsAndStatements();
+		ASTNode var0 = decsAndStatements.get(1);
+		Expr var1 = ((AssignmentStatement) var0).getExpr();
+		assertThat("", var1, instanceOf(IntLitExpr.class));
+		assertEquals(Type.INT, var1.getType());
+		assertEquals(Type.COLOR, var1.getCoerceTo());
+	}
+
+	@DisplayName("test19d")
+	@Test
+	public void test19d(TestInfo testInfo) throws Exception {
+		String input = """
+                        image test(int size)
+                            image[size,size] a;
+                            a[x,y] = 5.0;
+                            ^ a;
+ 
+                    """;
+		show("-------------");
+		show(testInfo.getDisplayName());
+		show(input);
+		ASTNode ast = getAST(input);
+		checkTypes(ast);
+		List<ASTNode> decsAndStatements = ((Program) ast).getDecsAndStatements();
+		ASTNode var0 = decsAndStatements.get(1);
+		Expr var1 = ((AssignmentStatement) var0).getExpr();
+		assertThat("", var1, instanceOf(FloatLitExpr.class));
+		assertEquals(Type.FLOAT, var1.getType());
+		assertEquals(Type.COLOR, var1.getCoerceTo());
+	}
+
+
 	@DisplayName("test20")
 	@Test
 	public void test20(TestInfo testInfo) throws Exception {
@@ -1074,7 +1121,6 @@ class StarterTests {
 		ASTNode ast = getAST(input);
 
 		checkTypes(ast);
-
-
 	}
+
 }
