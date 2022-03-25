@@ -134,9 +134,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.StarterTests" />
+        <item itemvalue="JUnit.StarterTests.test19c" />
         <item itemvalue="JUnit.StarterTests.test19d" />
         <item itemvalue="JUnit.StarterTests.test37" />
-        <item itemvalue="JUnit.StarterTests.test19c" />
         <item itemvalue="JUnit.StarterTests.test21" />
       </list>
     </recent_temporary>
@@ -206,6 +206,17 @@
     <MESSAGE value="Adds new tests from doc" />
     <MESSAGE value="Adds clarity in error case" />
     <option name="LAST_COMMIT_MESSAGE" value="Adds clarity in error case" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java</url>
+          <line>273</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/COP4020Project$StarterTests_test19d.ic" NAME="StarterTests.test19d Coverage Results" MODIFIED="1648175410454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

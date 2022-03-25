@@ -266,8 +266,12 @@ public class TypeCheckVisitor implements ASTVisitor {
 	//This method several cases--you don't have to implement them all at once.
 	//Work incrementally and systematically, testing as you go.  
 	public Object visitAssignmentStatement(AssignmentStatement assignmentStatement, Object arg) throws Exception {
-		Type targetType = (Type) symbolTable.lookup(assignmentStatement.getName()).visit(this, arg);
+		NameDef nameDef = (NameDef) symbolTable.lookup(assignmentStatement.getName());
+		check(nameDef != null, assignmentStatement, "Variable undeclared!");
+
+		assignmentStatement.setTargetDec(nameDef);
 		Declaration dec = assignmentStatement.getTargetDec();
+		Type targetType = dec.getType();
 
 		boolean initialized = dec.isInitialized();
 		check(initialized, dec, "Target variable is not initialized!");
@@ -276,7 +280,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 		Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
 
 		if (targetType != Type.IMAGE) {
-			// check not pixel selector on lhs?
+
 			boolean assignmentCompatible = targetType == exprType;
 
 			if (targetType == Type.INT && exprType == Type.FLOAT) {
@@ -378,6 +382,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 	@Override
 	public Object visitVarDeclaration(VarDeclaration declaration, Object arg) throws Exception {
 		Type nameType = (Type) declaration.getNameDef().visit(this, arg);
+
 		Type exprType;
 		boolean isInitialized = declaration.getExpr() != null;
 
