@@ -341,9 +341,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 			symbolTable.remove(x.getText());
 			symbolTable.remove(y.getText());
 		}
-
-
-
 		return null;
 	}
 
@@ -459,6 +456,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 		boolean unique = symbolTable.insert(nameDefWithDim.getName(), nameDefWithDim);
 		check(unique, nameDefWithDim, "Variable declared twice!");
 
+		Dimension dim = nameDefWithDim.getDim();
+		check(dim.getHeight().visit(this, arg) == Type.INT && dim.getWidth().visit(this, arg) == Type.INT, nameDefWithDim, "Height and width must be INT!");
 		return nameDefWithDim.getType();
 	}
  
