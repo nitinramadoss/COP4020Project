@@ -27,6 +27,10 @@ public class SymbolTable {
     public boolean contains(String name) {
         return entries.containsKey(name);
     }
+
+    public void remove(String name) {
+        entries.remove(name);
+    }
 }
 
 
