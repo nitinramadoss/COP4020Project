@@ -273,8 +273,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 		Declaration dec = assignmentStatement.getTargetDec();
 		Type targetType = dec.getType();
 
-		boolean initialized = dec.isInitialized();
-		check(initialized, dec, "Target variable is not initialized!");
+		dec.setInitialized(true);
 
 		Expr expr = assignmentStatement.getExpr();
 		Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
@@ -315,8 +314,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 			check(assignmentCompatible, assignmentStatement, "Types are not assignment compatible");
 		}
 		else if (assignmentStatement.getSelector() != null) {
-			check(false, dec, "This part has not been done yet!");
-
 			PixelSelector selector = assignmentStatement.getSelector();
 			Expr x = selector.getX();
 			Expr y = selector.getY();
@@ -347,7 +344,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 
 
-		throw new UnsupportedOperationException("Unimplemented visit method.");
+		return null;
 	}
 
 
