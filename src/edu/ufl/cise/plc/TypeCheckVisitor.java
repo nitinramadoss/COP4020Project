@@ -359,7 +359,10 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitReadStatement(ReadStatement readStatement, Object arg) throws Exception {
-		Type targetType = (Type) symbolTable.lookup(readStatement.getName()).visit(this, arg);
+		Declaration target = symbolTable.lookup(readStatement.getName());
+		check(target != null, readStatement, "target variable uninitialized");
+
+		Type targetType = target.getType();
 		check(targetType != null, readStatement.getTargetDec(), "Target not declared!");
 		check(readStatement.getSelector() == null, readStatement.getSelector(), "Cannot have a pixel selector!");
 
@@ -367,7 +370,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 		check(exprType == Type.CONSOLE || exprType == Type.STRING, readStatement.getSource(), "RHS must be of type console or string!");
 
-		readStatement.getTargetDec().isInitialized();
+		target.setInitialized(true);
 
 		return null;
 	}
@@ -375,11 +378,12 @@ public class TypeCheckVisitor implements ASTVisitor {
 	@Override
 	public Object visitVarDeclaration(VarDeclaration declaration, Object arg) throws Exception {
 		Type nameType = (Type) declaration.getNameDef().visit(this, arg);
-		boolean isInitialized = declaration.getNameDef().isInitialized();
+		Type exprType;
+		boolean isInitialized = declaration.getExpr() != null;
 
 		if (isInitialized) {
 			Expr expr = declaration.getExpr();
-			Type exprType = expr.getType();
+			exprType = (Type) declaration.getExpr().visit(this, arg);
 
 			if (nameType == Type.IMAGE) {
 				if (exprType == Type.INT) {
@@ -404,7 +408,11 @@ public class TypeCheckVisitor implements ASTVisitor {
 			boolean valid2 = nameType == expr.getCoerceTo() || nameType == exprType;
 
 			check(valid1 || valid2, declaration, "Types of LHS and RHS are not compatible!");
+
+			declaration.setInitialized(true);
 		}
+
+
 
 		return declaration.getNameDef().getType();
 	}
