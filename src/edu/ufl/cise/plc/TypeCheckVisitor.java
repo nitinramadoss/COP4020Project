@@ -312,6 +312,33 @@ public class TypeCheckVisitor implements ASTVisitor {
 		}
 		else if (assignmentStatement.getSelector() != null) {
 			check(false, dec, "This part has not been done yet!");
+
+			PixelSelector selector = assignmentStatement.getSelector();
+			Expr x = selector.getX();
+			Expr y = selector.getY();
+
+			// Make sure x and y are not declared yet
+			check(x.getClass() == IdentExpr.class && y.getClass() == IdentExpr.class, assignmentStatement, "x and y must be IdentExpr's!");
+			check(!symbolTable.contains(x.getText()) && !symbolTable.contains(y.getText()), assignmentStatement, "x and y have already been declared!");
+
+			// Create declaration for these names, add to symbol table
+			NameDef xNameDef = new NameDef(x.getFirstToken(), x.getText(), (String) x.visit(this, arg));
+			NameDef yNameDef = new NameDef(y.getFirstToken(), y.getText(), (String) y.visit(this, arg));
+			symbolTable.insert(x.getText(), xNameDef);
+			symbolTable.insert(y.getText(), yNameDef);
+
+			// Process RHS
+			Type rhs = (Type) assignmentStatement.getExpr().visit(this, arg);
+			if (rhs == Type.COLOR || rhs == Type.COLORFLOAT || rhs == Type.FLOAT || rhs == Type.INT) {
+				assignmentStatement.getExpr().setCoerceTo(Type.COLOR);
+			}
+			else {
+				check(false, assignmentStatement, "RHS must be COLOR, COLORFLOAT, FLOAT, or INT!");
+			}
+
+			// Remove names from symbol table
+			symbolTable.remove(x.getText());
+			symbolTable.remove(y.getText());
 		}
 
 
