@@ -168,7 +168,42 @@ public class TypeCheckVisitor implements ASTVisitor {
 				else check(false, binaryExpr, "incompatible types for operator");
 			}
 			case TIMES, DIV, MOD -> {
-				if (lType == Type.IMAGE && rType == Type.INT) {
+				if (lType == Type.INT && rType == Type.INT) {
+					resultType = Type.INT;
+				}
+				else if (lType == Type.FLOAT && rType == Type.FLOAT) {
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.FLOAT && rType == Type.INT) {
+					// Coerce to float
+					binaryExpr.getRight().setCoerceTo(Type.FLOAT);
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.INT && rType == Type.FLOAT) {
+					// Coerce to float
+					binaryExpr.getLeft().setCoerceTo(Type.FLOAT);
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.COLOR && rType == Type.COLOR) {
+					resultType = Type.COLOR;
+				}
+				else if (lType == Type.COLORFLOAT && rType == Type.COLORFLOAT) {
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.COLORFLOAT && rType == Type.COLOR) {
+					// Coerce to colorfloat
+					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.COLOR && rType == Type.COLORFLOAT) {
+					// Coerce to colorfloat
+					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.IMAGE && rType == Type.IMAGE) {
+					resultType = Type.IMAGE;
+				}
+				else if (lType == Type.IMAGE && rType == Type.INT) {
 					resultType = Type.IMAGE;
 				}
 				else if (lType == Type.IMAGE && rType == Type.FLOAT) {
