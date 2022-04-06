@@ -322,7 +322,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 	}
 
 	@Override
-	//This method can only be used to check PixelSelector objects on the right hand side of an assignment. 
+	//This method can only be used to check PixelSelector objects on the right hand side of an assignment.
 	//Either modify to pass in context info and add code to handle both cases, or when on left side
 	//of assignment, check fields from parent assignment statement.
 	public Object visitPixelSelector(PixelSelector pixelSelector, Object arg) throws Exception {
@@ -335,7 +335,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	//This method several cases--you don't have to implement them all at once.
-	//Work incrementally and systematically, testing as you go.  
+	//Work incrementally and systematically, testing as you go.
 	public Object visitAssignmentStatement(AssignmentStatement assignmentStatement, Object arg) throws Exception {
 		NameDef nameDef = (NameDef) symbolTable.lookup(assignmentStatement.getName());
 		check(nameDef != null, assignmentStatement, "Variable undeclared!");
@@ -379,10 +379,10 @@ public class TypeCheckVisitor implements ASTVisitor {
 			symbolTable.remove(y.getText());
 		}
 
+		Expr expr = assignmentStatement.getExpr();
+		Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
+
 		if (targetType != Type.IMAGE) {
-			Expr expr = assignmentStatement.getExpr();
-			Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
-			type = exprType;
 
 			boolean assignmentCompatible = targetType == exprType;
 
@@ -402,10 +402,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 			check(assignmentCompatible, assignmentStatement, "Types are not assignment compatible");
 		}
 		else if (assignmentStatement.getSelector() == null) {
-			Expr expr = assignmentStatement.getExpr();
-			Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
-			type = exprType;
-
 			boolean assignmentCompatible = exprType == targetType;
 
 			if (exprType == Type.INT) {
@@ -431,11 +427,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 			check(!symbolTable.contains(x.getText()) && !symbolTable.contains(y.getText()), assignmentStatement, "x and y have already been declared!");
 
 			// Create declaration for these names, add to symbol table
-			NameDef xNameDef = new NameDef(x.getFirstToken(), "int", x.getText());
-			xNameDef.setInitialized(true);
-			NameDef yNameDef = new NameDef(y.getFirstToken(), "int", y.getText());
-			yNameDef.setInitialized(true);
-
+			NameDef xNameDef = new NameDef(x.getFirstToken(), x.getText(), (String) x.visit(this, arg));
+			NameDef yNameDef = new NameDef(y.getFirstToken(), y.getText(), (String) y.visit(this, arg));
 			symbolTable.insert(x.getText(), xNameDef);
 			symbolTable.insert(y.getText(), yNameDef);
 
@@ -447,11 +440,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 			else {
 				check(false, assignmentStatement, "RHS must be COLOR, COLORFLOAT, FLOAT, or INT!");
 			}
-
-			Expr expr = assignmentStatement.getExpr();
-			type = (Type) expr.visit(this, arg);
-
-			assignmentStatement.getTargetDec().setInitialized(true);
 
 			// Remove names from symbol table
 			symbolTable.remove(x.getText());
@@ -498,7 +486,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 		boolean isInitialized = declaration.getExpr() != null;
 
 		if (isInitialized) {
-			declaration.setInitialized(true);
 			Expr expr = declaration.getExpr();
 			exprType = (Type) declaration.getExpr().visit(this, arg);
 
@@ -525,6 +512,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 			boolean valid2 = nameType == expr.getCoerceTo() || nameType == exprType;
 
 			check(valid1 || valid2, declaration, "Types of LHS and RHS are not compatible!");
+
+			declaration.setInitialized(true);
 		}
 
 
