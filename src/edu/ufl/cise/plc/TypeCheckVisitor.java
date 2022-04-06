@@ -221,10 +221,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
 					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
 					resultType = Type.COLORFLOAT;
-<<<<<<< Updated upstream
 				}else if (lType == rType) {
 					resultType = lType;
-=======
 				} else if (lType == Type.INT && rType == Type.INT) {
 					resultType = Type.INT;
 				}
@@ -259,7 +257,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 				}
 				else if (lType == Type.IMAGE && rType == Type.IMAGE) {
 					resultType = Type.IMAGE;
->>>>>>> Stashed changes
 				}
 				else check(false, binaryExpr, "incompatible types for operator");
 			}
@@ -349,10 +346,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 		dec.setInitialized(true);
 
-<<<<<<< Updated upstream
 		Type type = null;
-=======
-		Expr expr = assignmentStatement.getExpr();
 
 		if (assignmentStatement.getSelector() != null && targetType == Type.IMAGE) {
 			PixelSelector selector = assignmentStatement.getSelector();
@@ -385,9 +379,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 			symbolTable.remove(y.getText());
 		}
 
-		Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
-
->>>>>>> Stashed changes
 		if (targetType != Type.IMAGE) {
 			Expr expr = assignmentStatement.getExpr();
 			Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
@@ -430,7 +421,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 			}
 			check(assignmentCompatible, assignmentStatement, "Types are not assignment compatible");
 		}
-<<<<<<< Updated upstream
 		else if (assignmentStatement.getSelector() != null) {
 			PixelSelector selector = assignmentStatement.getSelector();
 			Expr x = selector.getX();
@@ -469,10 +459,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 		}
 
 		return type;
-=======
-
-		return null;
->>>>>>> Stashed changes
 	}
 
 

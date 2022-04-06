@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9421785-8ae9-4ecd-a6f9-334b31cb810b" name="Changes" comment="Adds clarity in error case">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22,_4_57_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22,_9_36_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22__4_57_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22__9_36_PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="2319dbd3-9221-4204-ace7-cd089aa0c6de" name="Changes" comment="Adds clarity in error case">
+      <change beforePath="$PROJECT_DIR$/.idea/COP4020Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/COP4020Project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" afterDir="false" />
     </list>
@@ -17,59 +11,16 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CodeStyleSettingsInfer">
-    <option name="done" value="true" />
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="2" />
-  </component>
-  <component name="ProjectId" id="26lG92QAwg8qiss9K3DqR5ZfhFI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
   <component name="PropertiesComponent">
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-<<<<<<< Updated upstream
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\nitin\IdeaProjects\COP4020Project\src\edu\ufl\cise\plc" />
-    </key>
-  </component>
-  <component name="RunManager" selected="JUnit.StarterTests.test34">
-    <configuration name="Assignment2StarterTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-=======
-  <component name="RunManager" selected="JUnit.StarterTests.test34">
-    <configuration name="StarterTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
->>>>>>> Stashed changes
+  <component name="RunManager" selected="JUnit.GenTypeCheckTestsX">
+    <configuration name="StarterTests" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
       <module name="COP4020Project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.Assignment2StarterTests" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -104,149 +55,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StarterTests.test19c" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="COP4020Project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
-      <option name="METHOD_NAME" value="test19c(org.junit.jupiter.api.TestInfo)" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="StarterTests.test34" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="COP4020Project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
-      <option name="METHOD_NAME" value="test34(org.junit.jupiter.api.TestInfo)" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
+      <item itemvalue="Application.StarterTests" />
       <item itemvalue="JUnit.StarterTests" />
-      <item itemvalue="JUnit.StarterTests.test19c" />
-<<<<<<< Updated upstream
-      <item itemvalue="JUnit.StarterTests.test34" />
-      <item itemvalue="JUnit.Assignment2StarterTests" />
       <item itemvalue="JUnit.GenTypeCheckTestsX" />
-=======
-      <item itemvalue="JUnit.StarterTests.test19d" />
-      <item itemvalue="JUnit.StarterTests.test34" />
-      <item itemvalue="JUnit.StarterTests.test37" />
->>>>>>> Stashed changes
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.StarterTests.test34" />
-        <item itemvalue="JUnit.StarterTests" />
-<<<<<<< Updated upstream
         <item itemvalue="JUnit.GenTypeCheckTestsX" />
-=======
->>>>>>> Stashed changes
-        <item itemvalue="JUnit.StarterTests.test19c" />
-        <item itemvalue="JUnit.Assignment2StarterTests" />
+        <item itemvalue="JUnit.StarterTests" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-<<<<<<< Updated upstream
-      <changelist id="c9421785-8ae9-4ecd-a6f9-334b31cb810b" name="Changes" comment="Adds clarity in error case" />
-=======
-      <changelist id="c9421785-8ae9-4ecd-a6f9-334b31cb810b" name="Changes" comment="" />
->>>>>>> Stashed changes
-      <created>1647990604776</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1647990604776</updated>
-    </task>
-    <task id="LOCAL-00001" summary="Returns TypeCheckVisitor so tests can run properly">
-      <created>1648076988189</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1648076988189</updated>
-    </task>
-    <task id="LOCAL-00002" summary="boom, crackle, pop">
-      <created>1648089001873</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1648089001873</updated>
-    </task>
-    <task id="LOCAL-00003" summary="adds incomplete warning">
-      <created>1648089042430</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1648089042430</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Adds new tests from doc">
-      <created>1648162905837</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1648162905837</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Adds clarity in error case">
-      <created>1648163737722</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1648163737722</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Returns TypeCheckVisitor so tests can run properly" />
-    <MESSAGE value="boom, crackle, pop" />
-    <MESSAGE value="adds incomplete warning" />
-    <MESSAGE value="Adds new tests from doc" />
-    <MESSAGE value="Adds clarity in error case" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adds clarity in error case" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java</url>
-          <line>454</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java</url>
-          <line>393</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/COP4020Project$StarterTests_test19d.ic" NAME="StarterTests.test19d Coverage Results" MODIFIED="1648175410454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
