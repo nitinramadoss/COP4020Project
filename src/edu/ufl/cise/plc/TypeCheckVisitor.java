@@ -221,6 +221,42 @@ public class TypeCheckVisitor implements ASTVisitor {
 					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
 					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
 					resultType = Type.COLORFLOAT;
+				}else if (lType == rType) {
+					resultType = lType;
+				} else if (lType == Type.INT && rType == Type.INT) {
+					resultType = Type.INT;
+				}
+				else if (lType == Type.FLOAT && rType == Type.FLOAT) {
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.FLOAT && rType == Type.INT) {
+					// Coerce to float
+					binaryExpr.getRight().setCoerceTo(Type.FLOAT);
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.INT && rType == Type.FLOAT) {
+					// Coerce to float
+					binaryExpr.getLeft().setCoerceTo(Type.FLOAT);
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.COLOR && rType == Type.COLOR) {
+					resultType = Type.COLOR;
+				}
+				else if (lType == Type.COLORFLOAT && rType == Type.COLORFLOAT) {
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.COLORFLOAT && rType == Type.COLOR) {
+					// Coerce to colorfloat
+					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.COLOR && rType == Type.COLORFLOAT) {
+					// Coerce to colorfloat
+					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.IMAGE && rType == Type.IMAGE) {
+					resultType = Type.IMAGE;
 				}
 				else check(false, binaryExpr, "incompatible types for operator");
 			}
@@ -310,6 +346,39 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 		dec.setInitialized(true);
 
+		Type type = null;
+
+		if (assignmentStatement.getSelector() != null && targetType == Type.IMAGE) {
+			PixelSelector selector = assignmentStatement.getSelector();
+			Expr x = selector.getX();
+			Expr y = selector.getY();
+
+			// Make sure x and y are not declared yet
+			check(x.getClass() == IdentExpr.class && y.getClass() == IdentExpr.class, assignmentStatement, "x and y must be IdentExpr's!");
+			check(!symbolTable.contains(x.getText()) && !symbolTable.contains(y.getText()), assignmentStatement, "x and y have already been declared!");
+
+			// Create declaration for these names, add to symbol table
+			NameDef xNameDef = new NameDef(x.getFirstToken(), "int", x.getText());
+			NameDef yNameDef = new NameDef(y.getFirstToken(), "int", y.getText());
+			xNameDef.setInitialized(true);
+			yNameDef.setInitialized(true);
+			symbolTable.insert(x.getText(), xNameDef);
+			symbolTable.insert(y.getText(), yNameDef);
+
+			// Process RHS
+			Type rhs = (Type) assignmentStatement.getExpr().visit(this, arg);
+			if (rhs == Type.COLOR || rhs == Type.COLORFLOAT || rhs == Type.FLOAT || rhs == Type.INT) {
+				assignmentStatement.getExpr().setCoerceTo(Type.COLOR);
+			}
+			else {
+				check(false, assignmentStatement, "RHS must be COLOR, COLORFLOAT, FLOAT, or INT!");
+			}
+
+			// Remove names from symbol table
+			symbolTable.remove(x.getText());
+			symbolTable.remove(y.getText());
+		}
+
 		Expr expr = assignmentStatement.getExpr();
 		Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
 
@@ -376,7 +445,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 			symbolTable.remove(x.getText());
 			symbolTable.remove(y.getText());
 		}
-		return null;
+
+		return type;
 	}
 
 
