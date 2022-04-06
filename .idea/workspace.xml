@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9421785-8ae9-4ecd-a6f9-334b31cb810b" name="Changes" comment="Returns TypeCheckVisitor so tests can run properly">
+    <list default="true" id="c9421785-8ae9-4ecd-a6f9-334b31cb810b" name="Changes" comment="Adds clarity in error case">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22,_4_57_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22,_9_36_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22__4_57_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_23_22__9_36_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" afterDir="false" />
     </list>
@@ -44,7 +48,47 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="JUnit.StarterTests">
+<<<<<<< Updated upstream
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\nitin\IdeaProjects\COP4020Project\src\edu\ufl\cise\plc" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.StarterTests.test34">
+    <configuration name="Assignment2StarterTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+=======
+  <component name="RunManager" selected="JUnit.StarterTests.test34">
+    <configuration name="StarterTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+>>>>>>> Stashed changes
+      <module name="COP4020Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.Assignment2StarterTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GenTypeCheckTestsX" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="COP4020Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.GenTypeCheckTestsX" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="StarterTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="COP4020Project" />
       <extension name="coverage">
@@ -76,22 +120,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StarterTests.test19d" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="COP4020Project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
-      <option name="METHOD_NAME" value="test19d(org.junit.jupiter.api.TestInfo)" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="StarterTests.test34" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="COP4020Project" />
       <extension name="coverage">
@@ -108,43 +136,40 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StarterTests.test37" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="COP4020Project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
-      <option name="METHOD_NAME" value="test37(org.junit.jupiter.api.TestInfo)" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="JUnit.StarterTests" />
       <item itemvalue="JUnit.StarterTests.test19c" />
-      <item itemvalue="JUnit.StarterTests.test37" />
+<<<<<<< Updated upstream
+      <item itemvalue="JUnit.StarterTests.test34" />
+      <item itemvalue="JUnit.Assignment2StarterTests" />
+      <item itemvalue="JUnit.GenTypeCheckTestsX" />
+=======
       <item itemvalue="JUnit.StarterTests.test19d" />
       <item itemvalue="JUnit.StarterTests.test34" />
+      <item itemvalue="JUnit.StarterTests.test37" />
+>>>>>>> Stashed changes
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.StarterTests" />
         <item itemvalue="JUnit.StarterTests.test34" />
+        <item itemvalue="JUnit.StarterTests" />
+<<<<<<< Updated upstream
+        <item itemvalue="JUnit.GenTypeCheckTestsX" />
+=======
+>>>>>>> Stashed changes
         <item itemvalue="JUnit.StarterTests.test19c" />
-        <item itemvalue="JUnit.StarterTests.test19d" />
-        <item itemvalue="JUnit.StarterTests.test37" />
+        <item itemvalue="JUnit.Assignment2StarterTests" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="ef58fd28-b9f4-4d89-a35f-7b258833c9de" name="Changes" comment="" />
+<<<<<<< Updated upstream
+      <changelist id="c9421785-8ae9-4ecd-a6f9-334b31cb810b" name="Changes" comment="Adds clarity in error case" />
+=======
+      <changelist id="c9421785-8ae9-4ecd-a6f9-334b31cb810b" name="Changes" comment="" />
+>>>>>>> Stashed changes
       <created>1647990604776</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -206,6 +231,22 @@
     <MESSAGE value="Adds new tests from doc" />
     <MESSAGE value="Adds clarity in error case" />
     <option name="LAST_COMMIT_MESSAGE" value="Adds clarity in error case" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java</url>
+          <line>454</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java</url>
+          <line>393</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/COP4020Project$StarterTests_test19d.ic" NAME="StarterTests.test19d Coverage Results" MODIFIED="1648175410454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

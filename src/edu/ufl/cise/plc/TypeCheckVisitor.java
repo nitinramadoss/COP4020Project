@@ -186,6 +186,45 @@ public class TypeCheckVisitor implements ASTVisitor {
 					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
 					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
 					resultType = Type.COLORFLOAT;
+<<<<<<< Updated upstream
+				}else if (lType == rType) {
+					resultType = lType;
+=======
+				} else if (lType == Type.INT && rType == Type.INT) {
+					resultType = Type.INT;
+				}
+				else if (lType == Type.FLOAT && rType == Type.FLOAT) {
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.FLOAT && rType == Type.INT) {
+					// Coerce to float
+					binaryExpr.getRight().setCoerceTo(Type.FLOAT);
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.INT && rType == Type.FLOAT) {
+					// Coerce to float
+					binaryExpr.getLeft().setCoerceTo(Type.FLOAT);
+					resultType = Type.FLOAT;
+				}
+				else if (lType == Type.COLOR && rType == Type.COLOR) {
+					resultType = Type.COLOR;
+				}
+				else if (lType == Type.COLORFLOAT && rType == Type.COLORFLOAT) {
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.COLORFLOAT && rType == Type.COLOR) {
+					// Coerce to colorfloat
+					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.COLOR && rType == Type.COLORFLOAT) {
+					// Coerce to colorfloat
+					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
+					resultType = Type.COLORFLOAT;
+				}
+				else if (lType == Type.IMAGE && rType == Type.IMAGE) {
+					resultType = Type.IMAGE;
+>>>>>>> Stashed changes
 				}
 				else check(false, binaryExpr, "incompatible types for operator");
 			}
@@ -275,10 +314,49 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 		dec.setInitialized(true);
 
+<<<<<<< Updated upstream
+		Type type = null;
+=======
 		Expr expr = assignmentStatement.getExpr();
+
+		if (assignmentStatement.getSelector() != null && targetType == Type.IMAGE) {
+			PixelSelector selector = assignmentStatement.getSelector();
+			Expr x = selector.getX();
+			Expr y = selector.getY();
+
+			// Make sure x and y are not declared yet
+			check(x.getClass() == IdentExpr.class && y.getClass() == IdentExpr.class, assignmentStatement, "x and y must be IdentExpr's!");
+			check(!symbolTable.contains(x.getText()) && !symbolTable.contains(y.getText()), assignmentStatement, "x and y have already been declared!");
+
+			// Create declaration for these names, add to symbol table
+			NameDef xNameDef = new NameDef(x.getFirstToken(), "int", x.getText());
+			NameDef yNameDef = new NameDef(y.getFirstToken(), "int", y.getText());
+			xNameDef.setInitialized(true);
+			yNameDef.setInitialized(true);
+			symbolTable.insert(x.getText(), xNameDef);
+			symbolTable.insert(y.getText(), yNameDef);
+
+			// Process RHS
+			Type rhs = (Type) assignmentStatement.getExpr().visit(this, arg);
+			if (rhs == Type.COLOR || rhs == Type.COLORFLOAT || rhs == Type.FLOAT || rhs == Type.INT) {
+				assignmentStatement.getExpr().setCoerceTo(Type.COLOR);
+			}
+			else {
+				check(false, assignmentStatement, "RHS must be COLOR, COLORFLOAT, FLOAT, or INT!");
+			}
+
+			// Remove names from symbol table
+			symbolTable.remove(x.getText());
+			symbolTable.remove(y.getText());
+		}
+
 		Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
 
+>>>>>>> Stashed changes
 		if (targetType != Type.IMAGE) {
+			Expr expr = assignmentStatement.getExpr();
+			Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
+			type = exprType;
 
 			boolean assignmentCompatible = targetType == exprType;
 
@@ -298,6 +376,10 @@ public class TypeCheckVisitor implements ASTVisitor {
 			check(assignmentCompatible, assignmentStatement, "Types are not assignment compatible");
 		}
 		else if (assignmentStatement.getSelector() == null) {
+			Expr expr = assignmentStatement.getExpr();
+			Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
+			type = exprType;
+
 			boolean assignmentCompatible = exprType == targetType;
 
 			if (exprType == Type.INT) {
@@ -313,6 +395,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 			}
 			check(assignmentCompatible, assignmentStatement, "Types are not assignment compatible");
 		}
+<<<<<<< Updated upstream
 		else if (assignmentStatement.getSelector() != null) {
 			PixelSelector selector = assignmentStatement.getSelector();
 			Expr x = selector.getX();
@@ -323,8 +406,11 @@ public class TypeCheckVisitor implements ASTVisitor {
 			check(!symbolTable.contains(x.getText()) && !symbolTable.contains(y.getText()), assignmentStatement, "x and y have already been declared!");
 
 			// Create declaration for these names, add to symbol table
-			NameDef xNameDef = new NameDef(x.getFirstToken(), x.getText(), (String) x.visit(this, arg));
-			NameDef yNameDef = new NameDef(y.getFirstToken(), y.getText(), (String) y.visit(this, arg));
+			NameDef xNameDef = new NameDef(x.getFirstToken(), "int", x.getText());
+			xNameDef.setInitialized(true);
+			NameDef yNameDef = new NameDef(y.getFirstToken(), "int", y.getText());
+			yNameDef.setInitialized(true);
+
 			symbolTable.insert(x.getText(), xNameDef);
 			symbolTable.insert(y.getText(), yNameDef);
 
@@ -337,11 +423,21 @@ public class TypeCheckVisitor implements ASTVisitor {
 				check(false, assignmentStatement, "RHS must be COLOR, COLORFLOAT, FLOAT, or INT!");
 			}
 
+			Expr expr = assignmentStatement.getExpr();
+			type = (Type) expr.visit(this, arg);
+
+			assignmentStatement.getTargetDec().setInitialized(true);
+
 			// Remove names from symbol table
 			symbolTable.remove(x.getText());
 			symbolTable.remove(y.getText());
 		}
+
+		return type;
+=======
+
 		return null;
+>>>>>>> Stashed changes
 	}
 
 
@@ -381,6 +477,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 		boolean isInitialized = declaration.getExpr() != null;
 
 		if (isInitialized) {
+			declaration.setInitialized(true);
 			Expr expr = declaration.getExpr();
 			exprType = (Type) declaration.getExpr().visit(this, arg);
 
@@ -407,8 +504,6 @@ public class TypeCheckVisitor implements ASTVisitor {
 			boolean valid2 = nameType == expr.getCoerceTo() || nameType == exprType;
 
 			check(valid1 || valid2, declaration, "Types of LHS and RHS are not compatible!");
-
-			declaration.setInitialized(true);
 		}
 
 
