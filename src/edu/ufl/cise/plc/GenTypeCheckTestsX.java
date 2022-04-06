@@ -55,7 +55,7 @@ import java.time.Duration;
 import java.io.PrintStream;
 import java.util.List;
 
-class GenTypeCheckTestsX{
+class GenTypeCheckTests {
 private ASTNode getAST(String input) throws Exception {
 	IParser parser = CompilerComponentFactory.getParser(input);
 	return parser.parse();
