@@ -362,6 +362,12 @@ public class TypeCheckVisitor implements ASTVisitor {
 			NameDef yNameDef = new NameDef(y.getFirstToken(), "int", y.getText());
 			xNameDef.setInitialized(true);
 			yNameDef.setInitialized(true);
+
+			x.setType(Type.INT);
+			y.setType(Type.INT);
+			((IdentExpr) x).setDec(xNameDef);
+			((IdentExpr) y).setDec(yNameDef);
+
 			symbolTable.insert(x.getText(), xNameDef);
 			symbolTable.insert(y.getText(), yNameDef);
 
@@ -379,10 +385,10 @@ public class TypeCheckVisitor implements ASTVisitor {
 			symbolTable.remove(y.getText());
 		}
 
-		Expr expr = assignmentStatement.getExpr();
-		Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
-
 		if (targetType != Type.IMAGE) {
+
+			Expr expr = assignmentStatement.getExpr();
+			Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
 
 			boolean assignmentCompatible = targetType == exprType;
 
@@ -402,6 +408,9 @@ public class TypeCheckVisitor implements ASTVisitor {
 			check(assignmentCompatible, assignmentStatement, "Types are not assignment compatible");
 		}
 		else if (assignmentStatement.getSelector() == null) {
+			Expr expr = assignmentStatement.getExpr();
+			Type exprType = (Type) assignmentStatement.getExpr().visit(this, arg);
+
 			boolean assignmentCompatible = exprType == targetType;
 
 			if (exprType == Type.INT) {
@@ -427,8 +436,11 @@ public class TypeCheckVisitor implements ASTVisitor {
 			check(!symbolTable.contains(x.getText()) && !symbolTable.contains(y.getText()), assignmentStatement, "x and y have already been declared!");
 
 			// Create declaration for these names, add to symbol table
-			NameDef xNameDef = new NameDef(x.getFirstToken(), x.getText(), (String) x.visit(this, arg));
-			NameDef yNameDef = new NameDef(y.getFirstToken(), y.getText(), (String) y.visit(this, arg));
+			NameDef xNameDef = new NameDef(x.getFirstToken(), "int", x.getText());
+			xNameDef.setInitialized(true);
+			NameDef yNameDef = new NameDef(y.getFirstToken(), "int", y.getText());
+			yNameDef.setInitialized(true);
+			symbolTable.insert(x.getText(), xNameDef);
 			symbolTable.insert(x.getText(), xNameDef);
 			symbolTable.insert(y.getText(), yNameDef);
 
@@ -465,6 +477,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 		Declaration target = symbolTable.lookup(readStatement.getName());
 		check(target != null, readStatement, "target variable uninitialized");
 
+		readStatement.setTargetDec(target);
+
 		Type targetType = target.getType();
 		check(targetType != null, readStatement.getTargetDec(), "Target not declared!");
 		check(readStatement.getSelector() == null, readStatement.getSelector(), "Cannot have a pixel selector!");
@@ -480,14 +494,17 @@ public class TypeCheckVisitor implements ASTVisitor {
 
 	@Override
 	public Object visitVarDeclaration(VarDeclaration declaration, Object arg) throws Exception {
-		Type nameType = (Type) declaration.getNameDef().visit(this, arg);
-
 		Type exprType;
 		boolean isInitialized = declaration.getExpr() != null;
 
 		if (isInitialized) {
+			declaration.setInitialized(true);
+			declaration.getNameDef().setInitialized(true);
+
 			Expr expr = declaration.getExpr();
 			exprType = (Type) declaration.getExpr().visit(this, arg);
+
+			Type nameType = (Type) declaration.getNameDef().visit(this, arg);
 
 			if (nameType == Type.IMAGE) {
 				if (exprType == Type.INT) {
@@ -512,8 +529,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 			boolean valid2 = nameType == expr.getCoerceTo() || nameType == exprType;
 
 			check(valid1 || valid2, declaration, "Types of LHS and RHS are not compatible!");
-
-			declaration.setInitialized(true);
+		} else {
+			declaration.getNameDef().visit(this, arg);
 		}
 
 
