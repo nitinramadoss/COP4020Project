@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2319dbd3-9221-4204-ace7-cd089aa0c6de" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CodeGenStringBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/runtime/ConsoleIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/runtime/ConsoleIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/Assignment5TestStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/Assignment5TestStarter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CodeGenStringBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CodeGenStringBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CodeGenVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CodeGenVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/GenTypeCheckTestsX.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Types.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/ast/Types.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,10 +46,25 @@
       <recent name="C:\Users\nitin\IdeaProjects\COP4020Project\src\edu\ufl\cise\plc\runtime" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.GenTypeCheckTests">
+  <component name="RunManager" selected="JUnit.Assignment5TestStarter">
     <configuration name="StarterTests" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
       <module name="COP4020Project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Assignment5TestStarter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="COP4020Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.Assignment5TestStarter" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -113,37 +131,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StarterTests.test35c" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="COP4020Project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
-      <option name="METHOD_NAME" value="test35c(org.junit.jupiter.api.TestInfo)" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.StarterTests" />
       <item itemvalue="JUnit.StarterTests" />
       <item itemvalue="JUnit.GenTypeCheckTests" />
-      <item itemvalue="JUnit.StarterTests.test35c" />
       <item itemvalue="JUnit.StarterTests.test26" />
       <item itemvalue="JUnit.StarterTests.test35b" />
+      <item itemvalue="JUnit.Assignment5TestStarter" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.Assignment5TestStarter" />
         <item itemvalue="JUnit.GenTypeCheckTests" />
         <item itemvalue="JUnit.StarterTests" />
         <item itemvalue="JUnit.StarterTests.test35b" />
         <item itemvalue="JUnit.StarterTests.test26" />
-        <item itemvalue="JUnit.StarterTests.test35c" />
       </list>
     </recent_temporary>
   </component>
