@@ -65,12 +65,12 @@ public class ConsoleIO {
 			case "INT" -> scanner.nextInt();
 			case "FLOAT" -> scanner.nextFloat();
 			case "STRING" -> scanner.nextLine();
-			case "COLOR" -> {
-				int r = scanner.nextInt();
-				int g = scanner.nextInt();
-				int b = scanner.nextInt();
-				yield new ColorTuple(r, g, b);
-			}
+//			case "COLOR" -> {
+//				int r = scanner.nextInt();
+//				int g = scanner.nextInt();
+//				int b = scanner.nextInt();
+//				yield new ColorTuple(r, g, b);
+//			}
 			case "BOOLEAN" -> scanner.nextBoolean();
 			default -> throw new IllegalArgumentException("Compiler bug Unexpected value: " + type);
 			};
