@@ -52,21 +52,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GenTypeCheckTestsX" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="COP4020Project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.GenTypeCheckTestsX" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="StarterTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="COP4020Project" />
       <extension name="coverage">
@@ -82,7 +67,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StarterTests.test34" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="StarterTests.test26" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="COP4020Project" />
       <extension name="coverage">
         <pattern>
@@ -92,7 +77,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
       <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
-      <option name="METHOD_NAME" value="test34(org.junit.jupiter.api.TestInfo)" />
+      <option name="METHOD_NAME" value="test26(org.junit.jupiter.api.TestInfo)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -114,21 +99,37 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="StarterTests.test35c" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="COP4020Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
+      <option name="METHOD_NAME" value="test35c(org.junit.jupiter.api.TestInfo)" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.StarterTests" />
       <item itemvalue="JUnit.StarterTests" />
-      <item itemvalue="JUnit.GenTypeCheckTestsX" />
-      <item itemvalue="JUnit.StarterTests.test35b" />
-      <item itemvalue="JUnit.StarterTests.test34" />
       <item itemvalue="JUnit.GenTypeCheckTests" />
+      <item itemvalue="JUnit.StarterTests.test35c" />
+      <item itemvalue="JUnit.StarterTests.test26" />
+      <item itemvalue="JUnit.StarterTests.test35b" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.GenTypeCheckTests" />
         <item itemvalue="JUnit.StarterTests" />
-        <item itemvalue="JUnit.StarterTests.test34" />
         <item itemvalue="JUnit.StarterTests.test35b" />
-        <item itemvalue="JUnit.GenTypeCheckTestsX" />
+        <item itemvalue="JUnit.StarterTests.test26" />
+        <item itemvalue="JUnit.StarterTests.test35c" />
       </list>
     </recent_temporary>
   </component>
@@ -147,9 +148,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plc/Assignment4StarterTests.java</url>
-          <line>954</line>
-          <option name="timeStamp" value="14" />
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java</url>
+          <line>339</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

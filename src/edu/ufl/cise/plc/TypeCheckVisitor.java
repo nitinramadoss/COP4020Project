@@ -404,6 +404,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 			} else if (targetType == Type.COLOR && exprType == Type.INT) {
 				expr.setCoerceTo(Type.COLOR);
 				assignmentCompatible = true;
+			} else if (assignmentStatement.getSelector() != null) {
+				assignmentCompatible = false;
 			}
 			check(assignmentCompatible, assignmentStatement, "Types are not assignment compatible");
 		}
@@ -486,6 +488,12 @@ public class TypeCheckVisitor implements ASTVisitor {
 		Type exprType = (Type) readStatement.getSource().visit(this, arg);
 
 		check(exprType == Type.CONSOLE || exprType == Type.STRING, readStatement.getSource(), "RHS must be of type console or string!");
+
+		if (exprType == CONSOLE) {
+			readStatement.getSource().setCoerceTo(targetType);
+		} else {
+			readStatement.getSource().setCoerceTo(Type.STRING);
+		}
 
 		target.setInitialized(true);
 
