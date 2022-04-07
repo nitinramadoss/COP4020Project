@@ -1,6 +1,7 @@
 package edu.ufl.cise.plc;
 
 import edu.ufl.cise.plc.ast.*;
+import edu.ufl.cise.plc.ast.Types.Type;
 
 public class CodeGenVisitor implements ASTVisitor {
     private String packageName;
@@ -79,7 +80,25 @@ public class CodeGenVisitor implements ASTVisitor {
 
     @Override
     public Object visitBinaryExpr(BinaryExpr binaryExpr, Object arg) throws Exception {
-        return null;
+        CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
+        Expr leftExpr = binaryExpr.getLeft();
+        Expr rightExpr = binaryExpr.getRight();
+
+        Type type = binaryExpr.getType();
+        Type leftType = leftExpr.getCoerceTo() != null ? leftExpr.getCoerceTo() : leftExpr.getType();
+        Type rightType = rightExpr.getCoerceTo() != null ? rightExpr.getCoerceTo() : rightExpr.getType();
+
+        IToken op = binaryExpr.getOp();
+
+        // if (not handled in assignment 5)  throw new UnsupportedOperationException(“Not implemented”);
+        // else:
+        sb.lparen();
+        leftExpr.visit(this, sb);
+        sb.append(op.getText());
+        rightExpr.visit(this, sb);
+        sb.rparen();
+
+        return sb;
     }
 
     @Override

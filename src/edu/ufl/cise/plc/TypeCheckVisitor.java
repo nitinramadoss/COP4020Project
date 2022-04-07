@@ -221,42 +221,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
 					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
 					resultType = Type.COLORFLOAT;
-				}else if (lType == rType) {
+				} else if (lType == rType) {
 					resultType = lType;
-				} else if (lType == Type.INT && rType == Type.INT) {
-					resultType = Type.INT;
-				}
-				else if (lType == Type.FLOAT && rType == Type.FLOAT) {
-					resultType = Type.FLOAT;
-				}
-				else if (lType == Type.FLOAT && rType == Type.INT) {
-					// Coerce to float
-					binaryExpr.getRight().setCoerceTo(Type.FLOAT);
-					resultType = Type.FLOAT;
-				}
-				else if (lType == Type.INT && rType == Type.FLOAT) {
-					// Coerce to float
-					binaryExpr.getLeft().setCoerceTo(Type.FLOAT);
-					resultType = Type.FLOAT;
-				}
-				else if (lType == Type.COLOR && rType == Type.COLOR) {
-					resultType = Type.COLOR;
-				}
-				else if (lType == Type.COLORFLOAT && rType == Type.COLORFLOAT) {
-					resultType = Type.COLORFLOAT;
-				}
-				else if (lType == Type.COLORFLOAT && rType == Type.COLOR) {
-					// Coerce to colorfloat
-					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
-					resultType = Type.COLORFLOAT;
-				}
-				else if (lType == Type.COLOR && rType == Type.COLORFLOAT) {
-					// Coerce to colorfloat
-					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
-					resultType = Type.COLORFLOAT;
-				}
-				else if (lType == Type.IMAGE && rType == Type.IMAGE) {
-					resultType = Type.IMAGE;
 				}
 				else check(false, binaryExpr, "incompatible types for operator");
 			}
