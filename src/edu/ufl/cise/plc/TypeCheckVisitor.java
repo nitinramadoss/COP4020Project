@@ -504,8 +504,8 @@ public class TypeCheckVisitor implements ASTVisitor {
 	public Object visitVarDeclaration(VarDeclaration declaration, Object arg) throws Exception {
 		Type exprType;
 		boolean isInitialized = declaration.getExpr() != null;
-
 		if (isInitialized) {
+			Kind op = declaration.getOp().getKind();
 			declaration.setInitialized(true);
 			declaration.getNameDef().setInitialized(true);
 
@@ -513,37 +513,49 @@ public class TypeCheckVisitor implements ASTVisitor {
 			exprType = (Type) declaration.getExpr().visit(this, arg);
 
 			Type nameType = (Type) declaration.getNameDef().visit(this, arg);
-
-			if (nameType == Type.IMAGE) {
-				if (exprType == Type.INT) {
-					expr.setCoerceTo(Type.COLOR);
-				} else if (exprType == Type.FLOAT) {
-					expr.setCoerceTo(Type.COLORFLOAT);
+			if (op == IToken.Kind.LARROW) {
+				check(exprType == Type.CONSOLE || exprType == Type.STRING, declaration, "ReadStatement RHS must be CONSOLE or STRING");
+				if (exprType == Type.CONSOLE) {
+					expr.setCoerceTo(nameType);
 				}
 			}
+			else {
+				if (nameType == Type.IMAGE) {
+					if (exprType == Type.INT) {
+						expr.setCoerceTo(Type.COLOR);
+					} else if (exprType == Type.FLOAT) {
+						expr.setCoerceTo(Type.COLORFLOAT);
+					}
+				}
 
-			if (nameType == Type.INT && exprType == Type.FLOAT) {
-				expr.setCoerceTo(Type.INT);
-			} else if (nameType == Type.FLOAT && exprType == Type.INT) {
-				expr.setCoerceTo(Type.FLOAT);
-			} else if (nameType == Type.INT && exprType == Type.COLOR) {
-				expr.setCoerceTo(Type.INT);
-			} else if (nameType == Type.COLOR && exprType == Type.INT) {
-				expr.setCoerceTo(Type.COLOR);
+				if (nameType == Type.INT && exprType == Type.FLOAT) {
+					expr.setCoerceTo(Type.INT);
+				} else if (nameType == Type.FLOAT && exprType == Type.INT) {
+					expr.setCoerceTo(Type.FLOAT);
+				} else if (nameType == Type.INT && exprType == Type.COLOR) {
+					expr.setCoerceTo(Type.INT);
+				} else if (nameType == Type.COLOR && exprType == Type.INT) {
+					expr.setCoerceTo(Type.COLOR);
+				}
+
+				boolean valid1 = nameType == Type.IMAGE && expr.getCoerceTo() == Type.COLOR ||
+						nameType == Type.IMAGE && exprType == Type.COLOR ||
+						nameType == Type.IMAGE && expr.getCoerceTo() == Type.COLORFLOAT ||
+						nameType == Type.IMAGE && exprType == Type.COLORFLOAT;
+				boolean valid2 = nameType == expr.getCoerceTo() || nameType == exprType;
+
+				check(valid1 || valid2, declaration, "Types of LHS and RHS are not compatible!");
 			}
-
-			boolean valid1 = nameType == Type.IMAGE && expr.getCoerceTo() == Type.COLOR || nameType == Type.IMAGE && exprType == Type.COLOR ||
-					nameType == Type.IMAGE && expr.getCoerceTo() == Type.COLORFLOAT || nameType == Type.IMAGE && exprType == Type.COLORFLOAT;
-			boolean valid2 = nameType == expr.getCoerceTo() || nameType == exprType;
-
-			check(valid1 || valid2, declaration, "Types of LHS and RHS are not compatible!");
 		} else {
 			declaration.getNameDef().visit(this, arg);
 		}
+		
+		Type nameDefType = declaration.getNameDef().getType();
+		if (nameDefType == Type.IMAGE) {
+			check((isInitialized && declaration.getExpr().getType() == Type.IMAGE) || declaration.getDim() != null, declaration, "If type of variable is Image, it must either have an initializer expression of type IMAGE, or a Dimension!");
+		}
 
-
-
-		return declaration.getNameDef().getType();
+		return nameDefType;
 	}
 
 
