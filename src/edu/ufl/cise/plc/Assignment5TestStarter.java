@@ -237,38 +237,372 @@ class Assignment5TestStarter {
 		checkResult(input, params, a + (b * 2) + c);
 	}
 
+//	@Test
+//	//This test reads from the console.  The tester should see that displayed result is same as entered.
+//	void testReadInt0() throws Exception {
+//		String input = """
+//				int testRead0()
+//				int x;
+//				x <- console;
+//				^ x;
+//				         """;
+//		displayResult(input, null);
+//	}
+
+
+//	@Test
+//	void testMultipleConsoleIO() throws Exception {
+//		String input = """
+//				int testMultipleWrites()
+//				int x0 = 34;
+//				int x1 = 56;
+//				write x0 + x1 -> console;
+//				int x3 ;
+//				x3 <- console;
+//				write "x3="-> console;
+//				write x3 -> console;
+//				int x4 = x0;
+//				x4 = (x4 + x1)/3;
+//				write "  x4="-> console;
+//				write x4 -> console;
+//				^x4;
+//				""";
+//		checkResult(input, (34+56)/3);
+//	}
+
+
 	@Test
-	//This test reads from the console.  The tester should see that displayed result is same as entered.
-	void testReadInt0() throws Exception {
-		String input = """
-				int testRead0()
-				int x;
-				x <- console;
-				^ x;
-				         """;
-		displayResult(input, null);
+	void exampleTest() throws Exception {
+		String input = "int y() ^42;";
+		checkResult(input,  null, 42);
 	}
 
 
 	@Test
-	void testMultipleConsoleIO() throws Exception {
+	void unaryExp1() throws Exception {
 		String input = """
-				int testMultipleWrites()
-				int x0 = 34;
-				int x1 = 56;
-				write x0 + x1 -> console;
-				int x3 ;
-				x3 <- console;
-				write "x3="-> console;
-				write x3 -> console;
-				int x4 = x0;
-				x4 = (x4 + x1)/3;
-				write "  x4="-> console;
-				write x4 -> console;
-				^x4;
+        int unaryExp1(int a, int b)
+        int x = a + -b;
+        ^ x;
+        """;
+		int a = 33;
+		int b = 24;
+		Object[] params = { a, b};
+		checkResult(input, params, a - b);
+	}
+
+	@Test
+	void unaryExp2() throws Exception {
+		String input = """
+        int unaryExp2(int a, int b, int c)
+        int x = a - -b + -c;
+        ^ x;
+        """;
+		int a = 33;
+		int b = 24;
+		int c = 2;
+		Object[] params = { a, b, c};
+		checkResult(input, params, a + b - c);
+	}
+
+	@Test
+	void unaryExp3() throws Exception {
+		String input = """
+        int unaryExp3()
+        int a = 33;
+        int b = 24;
+        int c = 2;
+        int x = a - -b + -c;
+        ^ x;
+        """;
+		checkResult(input, null, 55);
+	}
+
+	@Test
+	void testConditional1() throws Exception {
+		String input = """
+        int testConditional1(int a, int b)
+        int x = a+b;
+        ^ if (x > 0) a else b fi;
+        """;
+		int a = 33;
+		int b = 24;
+		Object[] params = { a, b};
+		checkResult(input, params, a);
+	}
+
+	@Test
+	void testConditional2() throws Exception {
+		String input = """
+        boolean testConditional1()
+        boolean x = false;
+        ^ if (!x) true else false fi;
+        """;
+		checkResult(input, null, true);
+	}
+
+
+	@Test
+	void testFloat() throws Exception {
+		String input = "float y() ^42.0;";
+		checkResult(input,  null, 42f);
+	}
+
+
+
+
+	@Test
+	void testConditional3() throws Exception {
+		String input = """
+      int f()
+         int a = 3;
+         int b = 4;
+        int c =
+        if (a == 4)
+             2
+          else
+            5
+         fi;
+      ^c;
+      """;
+		checkResult(input,  5);
+	}
+
+	@Test
+	void testReturnInCondition4() throws Exception {
+		String input = """
+      float f()
+         int a = 3;
+         int b = (8 * 3) + a;
+         float c =
+         if (b == 27)
+            2.5
+         else
+            6.5
+         fi;
+        
+        ^c;
+      """;
+		checkResult(input,  2.5f);
+	}
+
+	@Test
+	void testReturnInCondition5() throws Exception {
+		String input = """
+    boolean checkType(int b, float c)
+    boolean a;
+    if ((b+c) < 100)
+           a = true
+        else
+          a = false
+       fi;
+    ^a;
+    """;
+
+		int b = 3;
+		float c = 9.5f;
+		Object[] params = {b,c};
+		checkResult(input, params ,true);
+	}
+
+
+	@Test
+	void testCast() throws Exception {//a and d should be cast to a float type
+		String input = """
+      float f()
+         int a = 3;
+         float b = 4.2;
+         int d = 2;
+        float c =  (a + b) + d;
+       
+      ^c;
+      """;
+		checkResult(input,  9.2f);
+	}
+
+
+
+
+	@Test
+	void testp1() throws Exception {
+		String input = """
+	  		int a()
+	  		int c = (5.1+5);
+	  		^ c;
+	  		""";
+		checkResult(input,  null, 10);
+	}
+
+	@Test
+	void testp2() throws Exception {
+		String input = """
+	  		int a()
+	  		int c = if (5>6) 5.1 else 4.1 fi;
+	  		^ c;
+	  		""";
+		checkResult(input,  null, 4);
+	}
+
+
+
+	@Test
+	void testp3() throws Exception {
+		String input = """
+	  		int a()
+	  		int c = -5.1;
+	  		^ c;
+	  		""";
+		checkResult(input,  null, -5);
+	}
+
+	@Test
+	void testp4() throws Exception {
+		String input = """
+	  		float a()
+	  		float c = 5+(if (5<6) 5.1 else 4.1 fi);
+	  		^ c;
+	  		""";
+		checkResult(input,  null, 10.1f);
+	}
+
+	@Test
+	void testp5() throws Exception {
+		String input = """
+	  		int a()
+	  		int c = (if (5<6) 5 else 4 fi)*6;
+
+	  		^ c;
+	  		""";
+		checkResult(input,  null, 30);
+	}
+
+	@Test
+	void testCoerce() throws Exception {
+		String input = """
+     int a()
+     boolean x = false;
+     int y;
+     float c = 5.2;
+     float b = 3.7;
+     int d;
+     d = c + b;
+     float z = if (!x) d else 5 fi;
+     y = z;    
+     ^ y;
+     """;
+		checkResult(input,  null, 8);
+	}
+
+	@Test
+	void testStringNotEquals() throws Exception{
+		String input = """
+			boolean a(string b)
+			^ (b != "Test");
+			""";
+		String b = new String("test");
+		Object params[] = {b};
+		checkResult(input, params, true);
+	}
+
+	@Test
+	void testStringEquals() throws Exception{
+		String input = """
+			boolean a(string b)
+			^ (b == "test");
+			""";
+		String b = new String("test");
+		Object params[] = {b};
+		checkResult(input, params, true);
+	}
+
+	@Test
+	void testMany() throws Exception{
+		String input = """
+			boolean a(int b, float c, string d)
+			boolean e;
+			e <- console;
+			write "e = " -> console;
+			write e -> console;
+			boolean f = if (b >= c) e else false fi;
+			write "\nf = " -> console;
+			write f -> console;
+			string g = "test";
+			boolean h = if (d == g) b >= c else b < c fi;
+			^ h;
+			""";
+		int b = 42;
+		float c = 42.0f;
+		String d = new String("test");
+		Object params[] = {b, c, d};
+		checkResult(input, params, true);
+	}
+
+
+	@Test
+	void testStringNotEquals2() throws Exception{
+		String input = """
+				boolean a(string b)
+				^ (b != "Test");
 				""";
-		checkResult(input, (34+56)/3);
+		String b = new String("Test");
+		Object params[] = {b};
+		checkResult(input, params, false);
 	}
+	@Test
+	void binTest() throws Exception {
+		String input = """
+        int foo()
+        int a = 11 / 5.0;
+        ^a;
+        """;
+		checkResult(input,2);
+
+	}
+	@Test
+	void params() throws Exception {
+
+		String input = """
+           boolean foo(string a, string b)
+           ^ !(a == b);
+           """;
+		String a = "hello";
+		String b = "hello";
+		Object params[] = {a,b};
+		checkResult(input, params,false);
+	}
+	@Test
+	void binMany() throws Exception {
+		String input = """
+        int foo()
+        int a = 10 * 2.5 / 5 + 3 % 4.5 + 0.5;
+        ^a;
+        """;
+		checkResult(input,8);
+		// (((((float)10*2.5f)/(float)5)+((float)3%4.5f))+0.5f);
+
+	}
+
+	@Test
+	void testUsingJavaKeywordAsIdent_SHOULD_ALWAYS_FAIL() throws Exception{
+		String input = """
+        boolean a()
+        int abstract = 9;
+        ^ abstract == 9;
+        """;
+		//THIS SHOULD FAIL — make sure you get the keywords
+		Exception e = assertThrows(Exception.class, () -> {
+			checkResult(input, true);
+		});
+		show("Expected Exception:     " + e);
+
+	}
+
+
+
+
+
+
+
 
 
 
