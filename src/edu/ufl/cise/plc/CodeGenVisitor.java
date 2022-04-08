@@ -217,7 +217,6 @@ public class CodeGenVisitor implements ASTVisitor {
     public Object visitConditionalExpr(ConditionalExpr conditionalExpr, Object arg) throws Exception {
         CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
         sb.lparen().append(conditionalExpr.getText()).question();
-
         Expr lExpr = conditionalExpr.getTrueCase();
         lExpr.visit(this, sb);
 
@@ -305,6 +304,12 @@ public class CodeGenVisitor implements ASTVisitor {
             sb.append(toStringType(declaration.getType()) + " ");
             sb.append(declaration.getName()).eq();
             Expr expr = declaration.getExpr();
+            Type coerce = expr.getCoerceTo();
+
+            if (coerce != null) {
+                sb.type(toStringType(coerce)).space();
+            }
+
             expr.visit(this, sb);
             sb.semi().newline();
         }

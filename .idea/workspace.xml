@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2319dbd3-9221-4204-ace7-cd089aa0c6de" name="Changes" comment="Fixes VarDeclaration with read initializer, other bugs">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="2319dbd3-9221-4204-ace7-cd089aa0c6de" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CodeGenVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CodeGenVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CompilerComponentFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/CompilerComponentFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plc/TypeCheckVisitor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,16 +24,57 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="27Uj7Kb7ZGkyn5lK2zKvjidUJ2P" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager" selected="JUnit.StarterTests">
+  <component name="RunManager" selected="JUnit.Assignment5TestStarter">
     <configuration name="StarterTests" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.StarterTests" />
       <module name="COP4020Project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Assignment5TestStarter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="COP4020Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.Assignment5TestStarter" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Assignment5TestStarter.testp1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="COP4020Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.Assignment5TestStarter" />
+      <option name="METHOD_NAME" value="testp1" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -56,22 +94,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GenTypeCheckTests.test000" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="COP4020Project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.GenTypeCheckTests" />
-      <option name="METHOD_NAME" value="test000(org.junit.jupiter.api.TestInfo)" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="GenTypeCheckTests.test082" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="COP4020Project" />
       <extension name="coverage">
@@ -83,22 +105,6 @@
       <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
       <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.GenTypeCheckTests" />
       <option name="METHOD_NAME" value="test082(org.junit.jupiter.api.TestInfo)" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GenTypeCheckTests.test090" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="COP4020Project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plc.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plc" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plc.GenTypeCheckTests" />
-      <option name="METHOD_NAME" value="test090(org.junit.jupiter.api.TestInfo)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -123,20 +129,21 @@
       <item itemvalue="Application.StarterTests" />
       <item itemvalue="JUnit.StarterTests" />
       <item itemvalue="JUnit.GenTypeCheckTests" />
-      <item itemvalue="JUnit.GenTypeCheckTests.test000" />
-      <item itemvalue="JUnit.GenTypeCheckTests.test090" />
       <item itemvalue="JUnit.GenTypeCheckTests.test082" />
+      <item itemvalue="JUnit.Assignment5TestStarter" />
+      <item itemvalue="JUnit.Assignment5TestStarter.testp1" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.Assignment5TestStarter" />
+        <item itemvalue="JUnit.Assignment5TestStarter.testp1" />
         <item itemvalue="JUnit.StarterTests" />
         <item itemvalue="JUnit.GenTypeCheckTests" />
         <item itemvalue="JUnit.GenTypeCheckTests.test082" />
-        <item itemvalue="JUnit.GenTypeCheckTests.test090" />
-        <item itemvalue="JUnit.GenTypeCheckTests.test000" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task id="LOCAL-00001" summary="Fixes VarDeclaration with read initializer, other bugs">
       <created>1649366055547</created>
@@ -144,6 +151,13 @@
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
       <updated>1649366055547</updated>
+    </task>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2319dbd3-9221-4204-ace7-cd089aa0c6de" name="Changes" comment="" />
+      <created>1649381392693</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1649381392693</updated>
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
