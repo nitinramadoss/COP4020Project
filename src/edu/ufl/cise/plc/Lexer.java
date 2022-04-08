@@ -170,22 +170,22 @@ public class Lexer implements ILexer {
 
                         // Single character tokens
                         case '+' -> {
-                            return makeToken(IToken.Kind.PLUS);
+                            return makeToken(IToken.Kind.PLUS, "+");
                         }
                         case '*' -> {
-                            return makeToken(IToken.Kind.TIMES);
+                            return makeToken(IToken.Kind.TIMES, "*");
                         }
                         case '/' -> {
-                            return makeToken(IToken.Kind.DIV);
+                            return makeToken(IToken.Kind.DIV, "/");
                         }
                         case '%' -> {
-                            return makeToken(IToken.Kind.MOD);
+                            return makeToken(IToken.Kind.MOD, "%");
                         }
                         case '&' -> {
-                            return makeToken(IToken.Kind.AND);
+                            return makeToken(IToken.Kind.AND, "&&");
                         }
                         case '|' -> {
-                            return makeToken(IToken.Kind.OR);
+                            return makeToken(IToken.Kind.OR, "||");
                         }
                         case ',' -> {
                             return makeToken(IToken.Kind.COMMA);
