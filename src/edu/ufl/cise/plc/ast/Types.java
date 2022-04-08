@@ -36,19 +36,7 @@ public class Types {
 		default -> throw new IllegalArgumentException("Unexpected type value: " + s);
 		};
 	}
+	
 
-	public static String toStringType(Type t) {
-		return switch(t) {
-			case BOOLEAN -> "boolean";
-			case COLOR -> "color";
-			case CONSOLE -> "console";
-			case FLOAT -> "float";
-			case IMAGE -> "image";
-			case INT -> "int";
-			case STRING -> "string";
-			case VOID -> "void";
-			default -> throw new IllegalArgumentException("Unexpected type value: " + t);
-		};
-	}
 
 }
