@@ -1,10 +1,14 @@
 package edu.ufl.cise.plc;
 
 public class CodeGenStringBuilder {
-    StringBuilder delegate;
+    private StringBuilder delegate;
 
     public CodeGenStringBuilder() {
         delegate = new StringBuilder();
+    }
+
+    public String getString() {
+        return delegate.toString();
     }
 
     public CodeGenStringBuilder append(String s){
@@ -42,6 +46,11 @@ public class CodeGenStringBuilder {
         return this;
     }
 
+    public CodeGenStringBuilder quote(){
+        delegate.append("\"");
+        return this;
+    }
+
     public CodeGenStringBuilder space(){
         delegate.append(" ");
         return this;
@@ -59,6 +68,11 @@ public class CodeGenStringBuilder {
 
     public CodeGenStringBuilder colon(){
         delegate.append(":");
+        return this;
+    }
+
+    public CodeGenStringBuilder type(String type){
+        delegate.append("(").append(type).append(")");
         return this;
     }
 }
