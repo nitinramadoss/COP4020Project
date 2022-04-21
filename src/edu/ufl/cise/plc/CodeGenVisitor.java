@@ -167,13 +167,17 @@ public class CodeGenVisitor implements ASTVisitor {
     @Override
     public Object visitColorExpr(ColorExpr colorExpr, Object arg) throws Exception {
         CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
+        sb.append("new ColorTuple(");
+        Expr red = colorExpr.getRed();
+        red.visit(this, arg);
+        sb.comma().space();
+        Expr green = colorExpr.getGreen();
+        green.visit(this, arg);
+        sb.comma().space();
+        Expr blue = colorExpr.getBlue();
+        blue.visit(this, arg);
 
-        String red = colorExpr.getRed().getText();
-        String green = colorExpr.getGreen().getText();
-        String blue = colorExpr.getBlue().getText();
-
-
-        return sb.append("new ColorTuple(" + red + ", " + green + ", " + blue + ")");
+        return sb.rparen();
     }
 
     @Override
