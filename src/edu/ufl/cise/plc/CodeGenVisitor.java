@@ -261,6 +261,15 @@ public class CodeGenVisitor implements ASTVisitor {
     public Object visitAssignmentStatement(AssignmentStatement assignmentStatement, Object arg) throws Exception {
         CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
 
+        if (assignmentStatement.getExpr().getType() == Type.IMAGE && assignmentStatement.getTargetDec().getType() == Type.IMAGE) {
+            Dimension dim = assignmentStatement.getTargetDec().getDim();
+            if (dim != null) {
+
+            } else {
+
+            }
+        }
+
         sb.append(assignmentStatement.getName()).eq();
 
         Expr expr = assignmentStatement.getExpr();
@@ -280,12 +289,16 @@ public class CodeGenVisitor implements ASTVisitor {
     public Object visitReadStatement(ReadStatement readStatement, Object arg) throws Exception {
         CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
 
-        sb.append(readStatement.getName()).space().eq();
+        if (readStatement.getSource().getType() == Type.CONSOLE) {
+            sb.append(readStatement.getName()).space().eq();
 
-        Expr expr = readStatement.getSource();
-        expr.visit(this, sb);
+            Expr expr = readStatement.getSource();
+            expr.visit(this, sb);
 
-        sb.semi();
+            sb.semi();
+        } else {
+            sb.append("FileURLIO.readImage(" + readStatement.getSource().getText());
+        }
 
         return sb;
     }
@@ -317,20 +330,42 @@ public class CodeGenVisitor implements ASTVisitor {
     public Object visitVarDeclaration(VarDeclaration declaration, Object arg) throws Exception {
         CodeGenStringBuilder sb=  (CodeGenStringBuilder) arg;
 
-        if (!declaration.isInitialized()) {
-            sb.append(toStringType(declaration.getType())).space().append(declaration.getName()).semi();
-        } else {
-            sb.append(toStringType(declaration.getType()) + " ");
-            sb.append(declaration.getName()).eq();
-            Expr expr = declaration.getExpr();
-            Type coerce = expr.getCoerceTo();
-
-            if (coerce != null) {
-                sb.type(toStringType(coerce)).space();
+        //HANDLE IF TYPE IS COLOR
+        if (declaration.getType() == Type.IMAGE) {
+            if (!declaration.isInitialized()) {
+                Dimension dim = declaration.getDim();
+                if (dim != null) {
+                    sb.append("BufferedImage " + declaration.getName() + "= new  BufferedImage(" +
+                            dim.getWidth().getText() + "," + dim.getHeight().getText() + ", BufferedImage.TYPE_INT_RGB)").semi().newline();
+                }
+            } else {
+                Dimension dim = declaration.getDim();
+                if (dim != null) {
+                    sb.append("BufferedImage " + declaration.getName() + " = ");
+                    declaration.getExpr().visit(this, arg);
+                    sb.comma().append(dim.getWidth().getText() + "," + dim.getHeight().getText() + ")");
+                } else {
+                    sb.append("BufferedImage " + declaration.getName() + " = ");
+                    declaration.getExpr().visit(this, arg);
+                    sb.rparen();
+                }
             }
+        } else {
+            if (!declaration.isInitialized()) {
+                sb.append(toStringType(declaration.getType())).space().append(declaration.getName()).semi();
+            } else {
+                sb.append(toStringType(declaration.getType()) + " ");
+                sb.append(declaration.getName()).eq();
+                Expr expr = declaration.getExpr();
+                Type coerce = expr.getCoerceTo();
 
-            expr.visit(this, sb);
-            sb.semi().newline();
+                if (coerce != null) {
+                    sb.type(toStringType(coerce)).space();
+                }
+
+                expr.visit(this, sb);
+                sb.semi().newline();
+            }
         }
 
         return sb;
