@@ -56,6 +56,7 @@ public class CodeGenVisitor implements ASTVisitor {
         if (packageName.length() > 0) {
             sb.append("package " + packageName + ";\n");
         }
+        sb.append("import java.awt.image.BufferedImage;\n");
         sb.append("import edu.ufl.cise.plc.runtime.*;\n");
         sb.append("public class " + program.getName() + " {\n");
         sb.append("\tpublic static " + toStringType(program.getReturnType()) + " apply( ");
@@ -198,8 +199,8 @@ public class CodeGenVisitor implements ASTVisitor {
         Expr rightExpr = binaryExpr.getRight();
 
         Type type = binaryExpr.getType();
-        Type leftType = leftExpr.getCoerceTo() != null ? leftExpr.getCoerceTo() : leftExpr.getType();
-        Type rightType = rightExpr.getCoerceTo() != null ? rightExpr.getCoerceTo() : rightExpr.getType();
+        Type leftType = leftExpr.getCoerceTo() == null ? leftExpr.getType() : leftExpr.getCoerceTo();
+        Type rightType = rightExpr.getCoerceTo() == null ? rightExpr.getType() : rightExpr.getCoerceTo();
 
         IToken op = binaryExpr.getOp();
 
