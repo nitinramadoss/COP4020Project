@@ -597,6 +597,18 @@ class Assignment5TestStarter {
 
 	}
 
+	@Test
+	void testFailedTest() throws Exception{
+		String input = """
+        string f()
+        string x;
+        x = "abc";
+        ^ x;
+        """;
+		checkResult(input, "abc");
+
+	}
+
 
 
 

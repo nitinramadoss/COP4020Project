@@ -318,7 +318,7 @@ public class CodeGenVisitor implements ASTVisitor {
         CodeGenStringBuilder sb=  (CodeGenStringBuilder) arg;
 
         if (!declaration.isInitialized()) {
-            sb.append(declaration.getText()).space().append(declaration.getName()).semi();
+            sb.append(toStringType(declaration.getType())).space().append(declaration.getName()).semi();
         } else {
             sb.append(toStringType(declaration.getType()) + " ");
             sb.append(declaration.getName()).eq();
