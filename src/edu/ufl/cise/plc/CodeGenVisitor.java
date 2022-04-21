@@ -17,7 +17,7 @@ public class CodeGenVisitor implements ASTVisitor {
             case COLOR -> "color";
             case CONSOLE -> "console";
             case FLOAT -> "float";
-            case IMAGE -> "image";
+            case IMAGE -> "BufferedImage";
             case INT -> "int";
             case STRING -> "String";
             case VOID -> "void";
