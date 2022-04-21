@@ -215,9 +215,8 @@ public class CodeGenVisitor implements ASTVisitor {
 
     @Override
     public Object visitConditionalExpr(ConditionalExpr conditionalExpr, Object arg) throws Exception {
-        CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
-        sb.lparen().append(conditionalExpr.getText()).question();
-
+        CodeGenStringBuilder sb = (CodeGenStringBuilder) arg;
+        sb.lparen().append(conditionalExpr.getCondition().getText()).rparen().question();
         Expr lExpr = conditionalExpr.getTrueCase();
         lExpr.visit(this, sb);
 
