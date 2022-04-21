@@ -39,7 +39,6 @@ public class DynamicClassLoader extends ClassLoader {
 
 	static Class<?> getClass(byte[] bytecode, String className) throws Exception {
 		DynamicClassLoader loader = new DynamicClassLoader(Thread.currentThread().getContextClassLoader());
-//		DynamicClassLoader loader = new DynamicClassLoader(getClass().getClassLoader());
 		Class<?> testClass = loader.define(className, bytecode);
 		return testClass;
 	}
