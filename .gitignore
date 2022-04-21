@@ -39,6 +39,7 @@ gradle-app.setting
 ##############################
 out/
 .idea/
+.idea/workspace.xml
 .idea_modules/
 *.iml
 *.ipr
