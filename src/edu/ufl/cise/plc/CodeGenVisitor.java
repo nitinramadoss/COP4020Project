@@ -1,8 +1,11 @@
 package edu.ufl.cise.plc;
 
 import edu.ufl.cise.plc.ast.*;
+import edu.ufl.cise.plc.ast.Dimension;
 import edu.ufl.cise.plc.ast.Types.Type;
+import edu.ufl.cise.plc.runtime.ColorTuple;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class CodeGenVisitor implements ASTVisitor {
@@ -50,7 +53,9 @@ public class CodeGenVisitor implements ASTVisitor {
 
 
         CodeGenStringBuilder sb = new CodeGenStringBuilder();
-        sb.append("package " + packageName + ";\n");
+        if (packageName.length() > 0) {
+            sb.append("package " + packageName + ";\n");
+        }
         sb.append("import edu.ufl.cise.plc.runtime.*;\n");
         sb.append("public class " + program.getName() + " {\n");
         sb.append("\tpublic static " + toStringType(program.getReturnType()) + " apply( ");
@@ -129,7 +134,10 @@ public class CodeGenVisitor implements ASTVisitor {
 
     @Override
     public Object visitColorConstExpr(ColorConstExpr colorConstExpr, Object arg) throws Exception {
-        return null;
+        CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
+        String langColor =  colorConstExpr.getText();
+
+        return sb.append("ColorTuple.unpack(" + "Color." + langColor + ".getRGB())");
     }
 
     @Override
@@ -158,7 +166,14 @@ public class CodeGenVisitor implements ASTVisitor {
 
     @Override
     public Object visitColorExpr(ColorExpr colorExpr, Object arg) throws Exception {
-        return null;
+        CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
+
+        String red = colorExpr.getRed().getText();
+        String green = colorExpr.getGreen().getText();
+        String blue = colorExpr.getBlue().getText();
+
+
+        return sb.append("new ColorTuple(" + red + ", " + green + ", " + blue + ")");
     }
 
     @Override
@@ -230,12 +245,16 @@ public class CodeGenVisitor implements ASTVisitor {
 
     @Override
     public Object visitDimension(Dimension dimension, Object arg) throws Exception {
-        throw new UnsupportedOperationException("Not implemented");
+        CodeGenStringBuilder sb = (CodeGenStringBuilder) arg;
+        String width =dimension.getWidth().getText();
+        String height = dimension.getHeight().getText();
+
+        return sb.append(width).comma().append(height);
     }
 
     @Override
     public Object visitPixelSelector(PixelSelector pixelSelector, Object arg) throws Exception {
-        throw new UnsupportedOperationException("Not implemented");
+        return null;
     }
 
     @Override
