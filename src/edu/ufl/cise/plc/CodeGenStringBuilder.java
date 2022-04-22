@@ -71,6 +71,11 @@ public class CodeGenStringBuilder {
         return this;
     }
 
+    public CodeGenStringBuilder tab(){
+        delegate.append("\t");
+        return this;
+    }
+
     public CodeGenStringBuilder type(String type){
         delegate.append("(").append(type).append(")");
         return this;
