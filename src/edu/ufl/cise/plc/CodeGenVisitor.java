@@ -35,6 +35,18 @@ public class CodeGenVisitor implements ASTVisitor {
         };
     }
 
+    public static String opToOpText(String op) {
+        return switch(op) {
+            case "+" -> "PLUS";
+            case "-" -> "MINUS";
+            case "*" -> "TIMES";
+            case "/" -> "DIV";
+            case "%" -> "MOD";
+
+            default -> throw new IllegalArgumentException("Unexpected type value: " + op);
+        };
+    }
+
     public CodeGenVisitor(String packageName) {
         this.packageName = packageName;
     }
@@ -129,7 +141,7 @@ public class CodeGenVisitor implements ASTVisitor {
         CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
         String langColor =  colorConstExpr.getText();
 
-        return sb.append("ColorTuple.unpack(" + "Color." + langColor + ".getRGB())");
+        return sb.lparen().append("ColorTuple.unpack(" + "Color." + langColor + ".getRGB()").rparen();
     }
 
     @Override
@@ -199,13 +211,65 @@ public class CodeGenVisitor implements ASTVisitor {
 
         IToken op = binaryExpr.getOp();
 
-        // if (not handled in assignment 5)  throw new UnsupportedOperationException(“Not implemented”);
-        // else:
-        sb.lparen();
-        leftExpr.visit(this, sb);
-        sb.append(op.getText());
-        rightExpr.visit(this, sb);
-        sb.rparen();
+//        (if left and right are colors)
+    //        (ImageOps.binaryTupleOp(ImageOps.OP.<opText>, <visit left>, <visit right>));
+//
+//
+//        (if left and right are images)
+    //        (ImageOps.binaryImageImageOp(ImageOps.OP.<opText>, <left>, <right>));
+//
+//        (if image and color)
+    //        (ImageOps.binaryImageScalarOp(ImageOps.OP.<opText>, <left>, <right>),
+    //        ColorTuple.makePackedColor(ColorTuple.getRed(<right>), ColorTuple.getGreen(<right>), ColorTuple.getBlue(<right>)));
+//
+//        (if image and int)
+    //        (ImageOps.binaryImageScalarOp(ImageOps.OP.<opText>, <left>, <right>));
+
+        if (leftType == Type.COLOR && rightType == Type.COLOR) {
+            sb.lparen();
+            sb.append("ImageOps.binaryTupleOp(ImageOps.OP." + opToOpText(op.getText()) + ", ");
+            leftExpr.visit(this, sb);
+            sb.comma().space();
+            rightExpr.visit(this, sb);
+            sb.rparen();
+            sb.rparen();
+        }
+        else if (leftType == Type.IMAGE && rightType == Type.IMAGE) {
+            sb.lparen();
+            sb.append("ImageOps.binaryImageImageOp(ImageOps.OP." + opToOpText(op.getText()) + ", ");
+            leftExpr.visit(this, sb);
+            sb.comma().space();
+            rightExpr.visit(this, sb);
+            sb.rparen();
+            sb.rparen();
+        }
+        else if ((leftType == Type.IMAGE && rightType == Type.COLOR) || (leftType == Type.COLOR && rightType == Type.IMAGE)) {
+            //(ImageOps.binaryImageScalarOp(ImageOps.OP.<opText>, <left>, <right>),
+//          ColorTuple.makePackedColor(ColorTuple.getRed(<right>), ColorTuple.getGreen(<right>), ColorTuple.getBlue(<right>)));
+
+            // (ImageOps.binaryImageScalarOp(ImageOps.OP.<opText>, <left>, <right>),
+            // ColorTuple.makePackedColor(ColorTuple.getRed(<right>), ColorTuple.getGreen(<right>), ColorTuple.getBlue(<right>)));
+
+            // ImageOps.binaryImageScalarOp(ImageOps.OP.ADD, Image, 4)
+            sb.lparen();
+            sb.append("ImageOps.binaryImageScalarOp(ImageOps.OP." + opToOpText(op.getText()) + ", ");
+            leftExpr.visit(this, sb);
+            sb.comma().space();
+            rightExpr.visit(this, sb);
+            sb.rparen();
+            sb.rparen();
+
+        }
+        else if ((leftType == Type.IMAGE && rightType == Type.INT) || (leftType == Type.INT && rightType == Type.IMAGE)) {
+//
+        }
+        else {
+            sb.lparen();
+            leftExpr.visit(this, sb);
+            sb.append(op.getText());
+            rightExpr.visit(this, sb);
+            sb.rparen();
+        }
 
         return sb;
     }
@@ -383,6 +447,7 @@ public class CodeGenVisitor implements ASTVisitor {
 
         if (declaration.getType() == Type.IMAGE) {
             if (!declaration.isInitialized()) {
+                //
                 Dimension dim = declaration.getDim();
                 if (dim != null) {
                     sb.append("BufferedImage " + declaration.getName() + "= new  BufferedImage(" +
@@ -390,8 +455,8 @@ public class CodeGenVisitor implements ASTVisitor {
                 }
             } else {
                 Dimension dim = declaration.getDim();
-
-                if (declaration.getExpr().getType() == Type.STRING) {
+                Type exprType = declaration.getExpr().getType();
+                if (exprType == Type.STRING) {
                     if (dim != null) {
                         sb.append("BufferedImage " + declaration.getName() + " = ");
                         sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
@@ -401,7 +466,7 @@ public class CodeGenVisitor implements ASTVisitor {
                         sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
                         sb.rparen().semi();
                     }
-                } else {
+                } else if (exprType == Type.INT || exprType == Type.COLOR) {
                     if (dim != null && declaration.getExpr().getType() == Type.COLOR || declaration.getExpr().getType() == Type.INT) {
                         sb.append("BufferedImage " + declaration.getName() + "= new  BufferedImage(" +
                                 dim.getWidth().getText() + "," + dim.getHeight().getText() + ", BufferedImage.TYPE_INT_RGB)").semi().newline();
@@ -424,6 +489,16 @@ public class CodeGenVisitor implements ASTVisitor {
 
                         sb.semi().newline();
                     }
+                } else if (exprType == Type.IMAGE) {
+                    String name = declaration.getName();
+
+                    sb.append("BufferedImage " + name + " = ");
+                    declaration.getExpr().visit(this, arg);
+                    sb.semi().newline();
+                    // sb.append(".clone()").semi().newline();
+                }
+                else {
+                    System.out.println("lol");
                 }
             }
         } else {
