@@ -217,6 +217,10 @@ public class TypeCheckVisitor implements ASTVisitor {
 					binaryExpr.getRight().setCoerceTo(Type.COLOR);
 					resultType = Type.COLOR;
 				}
+				else if (lType == Type.COLOR && rType == FLOAT) {
+					binaryExpr.getRight().setCoerceTo(Type.COLOR);
+					resultType = Type.COLOR;
+				}
 				else if (lType == Type.FLOAT && rType == Type.COLOR) {
 					binaryExpr.getLeft().setCoerceTo(Type.COLORFLOAT);
 					binaryExpr.getRight().setCoerceTo(Type.COLORFLOAT);
@@ -518,7 +522,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 		
 		Type nameDefType = declaration.getNameDef().getType();
 		if (nameDefType == Type.IMAGE) {
-			check((isInitialized && declaration.getExpr().getType() == Type.IMAGE) || declaration.getDim() != null, declaration, "If type of variable is Image, it must either have an initializer expression of type IMAGE, or a Dimension!");
+			check((isInitialized && declaration.getExpr().getType() == Type.IMAGE) || declaration.getDim() != null || declaration.getExpr().getType() == Type.STRING, declaration, "If type of variable is Image, it must either have an initializer expression of type IMAGE, or a Dimension!");
 		}
 
 		return nameDefType;

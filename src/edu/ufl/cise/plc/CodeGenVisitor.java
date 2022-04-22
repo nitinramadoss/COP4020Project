@@ -42,6 +42,7 @@ public class CodeGenVisitor implements ASTVisitor {
             case "*" -> "TIMES";
             case "/" -> "DIV";
             case "%" -> "MOD";
+            case "==" -> "EQUALS";
 
             default -> throw new IllegalArgumentException("Unexpected type value: " + op);
         };
@@ -261,7 +262,13 @@ public class CodeGenVisitor implements ASTVisitor {
 
         }
         else if ((leftType == Type.IMAGE && rightType == Type.INT) || (leftType == Type.INT && rightType == Type.IMAGE)) {
-//
+            sb.lparen();
+            sb.append("ImageOps.binaryImageScalarOp(ImageOps.OP." + opToOpText(op.getText()) + ", ");
+            leftExpr.visit(this, sb);
+            sb.comma().space();
+            rightExpr.visit(this, sb);
+            sb.rparen();
+            sb.rparen();
         }
         else {
             sb.lparen();
@@ -296,12 +303,12 @@ public class CodeGenVisitor implements ASTVisitor {
         sb.rparen().question();
         Expr lExpr = conditionalExpr.getTrueCase();
         lExpr.visit(this, sb);
-
+        sb.rparen();
         sb.colon();
 
         Expr rExpr = conditionalExpr.getFalseCase();
         rExpr.visit(this, sb);
-
+        sb.rparen();
         return sb;
     }
 
@@ -341,8 +348,7 @@ public class CodeGenVisitor implements ASTVisitor {
                 String x = selector.getX().getText();
                 String y = selector.getY().getText();
                 sb.append("for(int " + x + "= 0;" + x + " < " + name + ".getWidth();" + x + "++)").newline().tab().tab().append(
-                        "for(int " + y + "= 0;" + y + " < " + name + ".getWidth();" + y + "++)").newline().tab().tab().tab().append(
-                        "ImageOps.setColor(" + name + "," + x + "," + y + ", ");
+                        "for(int " + y + "= 0;" + y + " < " + name + ".getWidth();" + y + "++)").newline().tab().tab().tab();
 
                 if (assignmentStatement.getExpr().getType() == Type.COLOR) {
                     sb.append("ImageOps.setColor(" + name + "," + x + "," + y + ", ");
