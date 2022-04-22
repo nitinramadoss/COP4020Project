@@ -213,7 +213,7 @@ class Assignment6StarterTest {
                 ^b;
 
 				""";
-		String url = "https://www.ufl.edu/media/wwwufledu/images/nav/academics.jpg";
+		String url = "https://upload.wikimedia.org/wikipedia/commons/9/92/Albert_and_Alberta.jpg";
 		BufferedImage inputImage = FileURLIO.readImage(url);
 		int w = inputImage.getWidth();
 		int h = inputImage.getHeight();

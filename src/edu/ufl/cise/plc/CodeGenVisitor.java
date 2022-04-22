@@ -381,7 +381,6 @@ public class CodeGenVisitor implements ASTVisitor {
     public Object visitVarDeclaration(VarDeclaration declaration, Object arg) throws Exception {
         CodeGenStringBuilder sb=  (CodeGenStringBuilder) arg;
 
-        //HANDLE IF TYPE IS COLOR
         if (declaration.getType() == Type.IMAGE) {
             if (!declaration.isInitialized()) {
                 Dimension dim = declaration.getDim();
@@ -391,14 +390,40 @@ public class CodeGenVisitor implements ASTVisitor {
                 }
             } else {
                 Dimension dim = declaration.getDim();
-                if (dim != null) {
-                    sb.append("BufferedImage " + declaration.getName() + " = ");
-                    sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
-                    sb.comma().append(dim.getWidth().getText() + "," + dim.getHeight().getText() + ")").semi();
+
+                if (declaration.getExpr().getType() == Type.STRING) {
+                    if (dim != null) {
+                        sb.append("BufferedImage " + declaration.getName() + " = ");
+                        sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
+                        sb.comma().append(dim.getWidth().getText() + "," + dim.getHeight().getText() + ")").semi();
+                    } else {
+                        sb.append("BufferedImage " + declaration.getName() + " = ");
+                        sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
+                        sb.rparen().semi();
+                    }
                 } else {
-                    sb.append("BufferedImage " + declaration.getName() + " = ");
-                    sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
-                    sb.rparen().semi();
+                    if (dim != null && declaration.getExpr().getType() == Type.COLOR || declaration.getExpr().getType() == Type.INT) {
+                        sb.append("BufferedImage " + declaration.getName() + "= new  BufferedImage(" +
+                                dim.getWidth().getText() + "," + dim.getHeight().getText() + ", BufferedImage.TYPE_INT_RGB)").semi().newline();
+
+                        String name = declaration.getName();
+                        String x = "x";
+                        String y = "y";
+                        String val = declaration.getExpr().getText();
+
+                        sb.tab().append("for(int " + x + "= 0;" + x + " < " + name + ".getWidth();" + x + "++)").newline().tab().tab().append(
+                                "for(int " + y + "= 0;" + y + " < " + name + ".getWidth();" + y + "++)").newline().tab().tab().tab();
+
+                        if (declaration.getExpr().getType() == Type.COLOR) {
+                            sb.append("ImageOps.setColor(" + name + "," + x + "," + y + ", Color." + val + ".getRGB()");
+                            sb.rparen();
+                        } else {
+                            sb.append("ImageOps.setColor(" + name + "," + x + "," + y + ", new ColorTuple(" + val + ", " + val + ", " + val);
+                            sb.rparen().rparen();
+                        }
+
+                        sb.semi().newline();
+                    }
                 }
             }
         } else {
