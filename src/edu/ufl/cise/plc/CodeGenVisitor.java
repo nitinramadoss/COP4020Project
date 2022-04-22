@@ -323,7 +323,11 @@ public class CodeGenVisitor implements ASTVisitor {
 
     @Override
     public Object visitPixelSelector(PixelSelector pixelSelector, Object arg) throws Exception {
-        return null;
+        CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
+        pixelSelector.getX().visit(this, arg);
+        sb.comma().space();
+        pixelSelector.getY().visit(this, arg);
+        return sb;
     }
 
     @Override
@@ -434,7 +438,12 @@ public class CodeGenVisitor implements ASTVisitor {
 
     @Override
     public Object visitNameDefWithDim(NameDefWithDim nameDefWithDim, Object arg) throws Exception {
-        throw new UnsupportedOperationException("Not implemented");
+        CodeGenStringBuilder sb=  (CodeGenStringBuilder) arg;
+        String name = nameDefWithDim.getName();
+        sb.append("BufferedImage " + name + " = new BufferedImage(");
+        nameDefWithDim.getDim().visit(this, arg);
+        sb.append(", BufferedImage.TYPE_INT_RGB)");
+        return sb;
     }
 
     @Override
@@ -466,11 +475,11 @@ public class CodeGenVisitor implements ASTVisitor {
                     if (dim != null) {
                         sb.append("BufferedImage " + declaration.getName() + " = ");
                         sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
-                        sb.comma().append(dim.getWidth().getText() + "," + dim.getHeight().getText() + ")").semi();
+                        sb.comma().append(dim.getWidth().getText() + "," + dim.getHeight().getText() + ")").semi().newline();
                     } else {
                         sb.append("BufferedImage " + declaration.getName() + " = ");
                         sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
-                        sb.rparen().semi();
+                        sb.rparen().semi().newline();
                     }
                 } else if (exprType == Type.INT || exprType == Type.COLOR) {
                     if (dim != null && declaration.getExpr().getType() == Type.COLOR || declaration.getExpr().getType() == Type.INT) {
@@ -530,6 +539,11 @@ public class CodeGenVisitor implements ASTVisitor {
 
     @Override
     public Object visitUnaryExprPostfix(UnaryExprPostfix unaryExprPostfix, Object arg) throws Exception {
-        throw new UnsupportedOperationException("Not implemented");
+        CodeGenStringBuilder sb=  (CodeGenStringBuilder) arg;
+        String name = unaryExprPostfix.getText();
+        sb.append("ColorTuple.unpack(" + name + ".getRGB(");
+
+        unaryExprPostfix.getSelector().visit(this, arg);
+        return sb.rparen().rparen().semi();
     }
 }
