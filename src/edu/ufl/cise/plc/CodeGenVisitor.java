@@ -32,6 +32,7 @@ public class CodeGenVisitor implements ASTVisitor {
             case INT -> "Integer";
             case STRING -> "String";
             case COLOR -> "ColorTuple";
+            case IMAGE -> "BufferedImage";
             default -> throw new IllegalArgumentException("Unexpected type value: " + t);
         };
     }
@@ -454,7 +455,11 @@ public class CodeGenVisitor implements ASTVisitor {
 
             sb.semi();
         } else {
-            sb.append(readStatement.getName() +" = (" + toBoxedType(readStatement.getTargetDec().getType()) + ")FileURLIO.readImage(" + readStatement.getSource().getText()).rparen().semi();
+            if (readStatement.getTargetType() == Type.IMAGE) {
+                sb.append(readStatement.getName() +" = (" + toBoxedType(readStatement.getTargetDec().getType()) + ")FileURLIO.readImage(" + readStatement.getSource().getText()).rparen().semi();
+            } else {
+                sb.append(readStatement.getName() +" = (" + toBoxedType(readStatement.getTargetDec().getType()) + ")FileURLIO.readValueFromFile(" + readStatement.getSource().getText()).rparen().semi();
+            }
         }
 
         return sb;
@@ -494,7 +499,6 @@ public class CodeGenVisitor implements ASTVisitor {
 
         if (declaration.getType() == Type.IMAGE) {
             if (!declaration.isInitialized()) {
-                //
                 Dimension dim = declaration.getDim();
                 if (dim != null) {
                     sb.append("BufferedImage " + declaration.getName() + "= new  BufferedImage(" +
@@ -510,6 +514,7 @@ public class CodeGenVisitor implements ASTVisitor {
                         sb.comma().append(dim.getWidth().getText() + "," + dim.getHeight().getText() + ")").semi().newline();
                     } else {
                         sb.append("BufferedImage " + declaration.getName() + " = ");
+                        sb.lparen().append(toBoxedType(declaration.getType())).rparen();
                         sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
                         sb.rparen().semi().newline();
                     }
@@ -545,24 +550,36 @@ public class CodeGenVisitor implements ASTVisitor {
                     // sb.append(".clone()").semi().newline();
                 }
                 else {
-                    System.out.println("lol");
+
                 }
             }
         } else {
             if (!declaration.isInitialized()) {
                 sb.append(toStringType(declaration.getType())).space().append(declaration.getName()).semi();
             } else {
-                sb.append(toStringType(declaration.getType()) + " ");
-                sb.append(declaration.getName()).eq();
-                Expr expr = declaration.getExpr();
-                Type coerce = expr.getCoerceTo();
+                if (declaration.getOp().getKind() == IToken.Kind.LARROW) {
+                    sb.append(toStringType(declaration.getType()) + " ");
+                    sb.append(declaration.getName()).eq().space();
+                    sb.lparen().append(toBoxedType(declaration.getType())).rparen();
+                    if (declaration.getType() == Type.IMAGE) {
+                        sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
+                    } else {
+                        sb.append("FileURLIO.readValueFromFile(" + declaration.getExpr().getText());
+                    }
+                    sb.rparen().semi();
+                } else {
+                    sb.append(toStringType(declaration.getType()) + " ");
+                    sb.append(declaration.getName()).eq();
+                    Expr expr = declaration.getExpr();
+                    Type coerce = expr.getCoerceTo();
 
-                if (coerce != null) {
-                    sb.type(toStringType(coerce)).space();
+                    if (coerce != null) {
+                        sb.type(toStringType(coerce)).space();
+                    }
+
+                    expr.visit(this, sb);
+                    sb.semi().newline();
                 }
-
-                expr.visit(this, sb);
-                sb.semi().newline();
             }
         }
 
