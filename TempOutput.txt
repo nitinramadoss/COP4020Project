@@ -1,0 +1,5 @@
+42
+hello
+43.6
+ColorTuple [red=1, green=2, blue=3]
+ColorTuple [red=255, green=0, blue=0]

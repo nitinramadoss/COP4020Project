@@ -31,6 +31,7 @@ public class CodeGenVisitor implements ASTVisitor {
             case FLOAT -> "Float";
             case INT -> "Integer";
             case STRING -> "String";
+            case COLOR -> "ColorTuple";
             default -> throw new IllegalArgumentException("Unexpected type value: " + t);
         };
     }
@@ -43,6 +44,7 @@ public class CodeGenVisitor implements ASTVisitor {
             case "/" -> "DIV";
             case "%" -> "MOD";
             case "==" -> "EQUALS";
+            case "!=" -> "NOT_EQUALS";
 
             default -> throw new IllegalArgumentException("Unexpected type value: " + op);
         };
@@ -142,7 +144,7 @@ public class CodeGenVisitor implements ASTVisitor {
         CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
         String langColor =  colorConstExpr.getText();
 
-        return sb.lparen().append("ColorTuple.unpack(" + "Color." + langColor + ".getRGB()").rparen();
+        return sb.lparen().append("ColorTuple.unpack(" + "Color." + langColor + ".getRGB()").rparen().rparen();
     }
 
     @Override
@@ -164,7 +166,7 @@ public class CodeGenVisitor implements ASTVisitor {
         sb.append("ConsoleIO.readValueFromConsole"); // ConsoleIO.readValueFromConsole
         sb.lparen().quote().append(toStringType(consoleExpr.getCoerceTo()).toUpperCase()).quote().comma().space(); // (“INT”,
         sb.quote().append("Enter ").append(toBoxedType(consoleExpr.getCoerceTo()).toLowerCase()); // integer:
-        sb.colon().quote().rparen().semi(); // ”);
+        sb.colon().quote().rparen(); // ”);
 
         return sb;
     }
@@ -190,12 +192,21 @@ public class CodeGenVisitor implements ASTVisitor {
         CodeGenStringBuilder sb =  (CodeGenStringBuilder) arg;
         String op = unaryExpression.getOp().getText();
 
-        sb.lparen().append(op);
+        if (unaryExpression.getOp().getKind() == IToken.Kind.IMAGE_OP) {
+            sb.append(unaryExpression.getExpr().getText() + "." + op + "()");
+        } else if (unaryExpression.getOp().getKind() == IToken.Kind.COLOR_OP) {
+            sb.append("ColorTuple." + op + "(");
+            Expr expr = unaryExpression.getExpr();
+            expr.visit(this, sb);
+            sb.rparen();
+        } else {
+            sb.lparen().append(op);
 
-        Expr expr = unaryExpression.getExpr();
-        expr.visit(this, sb);
+            Expr expr = unaryExpression.getExpr();
+            expr.visit(this, sb);
 
-        sb.rparen();
+            sb.rparen();
+        }
 
         return sb;
     }
@@ -228,7 +239,13 @@ public class CodeGenVisitor implements ASTVisitor {
 
         if (leftType == Type.COLOR && rightType == Type.COLOR) {
             sb.lparen();
-            sb.append("ImageOps.binaryTupleOp(ImageOps.OP." + opToOpText(op.getText()) + ", ");
+
+            if (op.getText().equals("==") || op.getText().equals("!=")) {
+                sb.append("ImageOps.binaryTupleOp(ImageOps.BoolOP." + opToOpText(op.getText()) + ", ");
+            } else {
+                sb.append("ImageOps.binaryTupleOp(ImageOps.OP." + opToOpText(op.getText()) + ", ");
+            }
+
             leftExpr.visit(this, sb);
             sb.comma().space();
             rightExpr.visit(this, sb);
@@ -302,13 +319,13 @@ public class CodeGenVisitor implements ASTVisitor {
         conditionalExpr.getCondition().visit(this, arg);
         sb.rparen().question();
         Expr lExpr = conditionalExpr.getTrueCase();
+        sb.lparen();
         lExpr.visit(this, sb);
         sb.rparen();
         sb.colon();
 
         Expr rExpr = conditionalExpr.getFalseCase();
         rExpr.visit(this, sb);
-        sb.rparen();
         return sb;
     }
 
@@ -352,7 +369,7 @@ public class CodeGenVisitor implements ASTVisitor {
                 String x = selector.getX().getText();
                 String y = selector.getY().getText();
                 sb.append("for(int " + x + "= 0;" + x + " < " + name + ".getWidth();" + x + "++)").newline().tab().tab().append(
-                        "for(int " + y + "= 0;" + y + " < " + name + ".getWidth();" + y + "++)").newline().tab().tab().tab();
+                        "for(int " + y + "= 0;" + y + " < " + name + ".getHeight();" + y + "++)").newline().tab().tab().tab();
 
                 if (assignmentStatement.getExpr().getType() == Type.COLOR) {
                     sb.append("ImageOps.setColor(" + name + "," + x + "," + y + ", ");
@@ -370,7 +387,7 @@ public class CodeGenVisitor implements ASTVisitor {
                 String val = assignmentStatement.getExpr().getText();
 
                 sb.append("for(int " + x + "= 0;" + x + " < " + name + ".getWidth();" + x + "++)").newline().tab().tab().append(
-                        "for(int " + y + "= 0;" + y + " < " + name + ".getWidth();" + y + "++)").newline().tab().tab().tab();
+                        "for(int " + y + "= 0;" + y + " < " + name + ".getHeight();" + y + "++)").newline().tab().tab().tab();
 
                 if (assignmentStatement.getExpr().getType() == Type.COLOR) {
                     sb.append("ImageOps.setColor(" + name + "," + x + "," + y + ", Color." + val + ".getRGB()");
@@ -391,7 +408,7 @@ public class CodeGenVisitor implements ASTVisitor {
                 String x = selector.getX().getText();
                 String y = selector.getY().getText();
                 sb.append("for(int " + x + "= 0;" + x + " < " + name + ".getWidth();" + x + "++)").newline().tab().tab().append(
-                        "for(int " + y + "= 0;" + y + " < " + name + ".getWidth();" + y + "++)");
+                        "for(int " + y + "= 0;" + y + " < " + name + ".getHeight();" + y + "++)");
             }
         } else {
             sb.append(assignmentStatement.getName()).eq();
@@ -422,7 +439,7 @@ public class CodeGenVisitor implements ASTVisitor {
 
             sb.semi();
         } else {
-            sb.append("FileURLIO.readImage(" + readStatement.getSource().getText());
+            sb.append(readStatement.getName() +" = (" + toBoxedType(readStatement.getTargetDec().getType()) + ")FileURLIO.readImage(" + readStatement.getSource().getText()).rparen().semi();
         }
 
         return sb;
@@ -544,6 +561,6 @@ public class CodeGenVisitor implements ASTVisitor {
         sb.append("ColorTuple.unpack(" + name + ".getRGB(");
 
         unaryExprPostfix.getSelector().visit(this, arg);
-        return sb.rparen().rparen().semi();
+        return sb.rparen().rparen();
     }
 }
