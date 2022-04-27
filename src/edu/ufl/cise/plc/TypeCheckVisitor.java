@@ -522,7 +522,7 @@ public class TypeCheckVisitor implements ASTVisitor {
 		
 		Type nameDefType = declaration.getNameDef().getType();
 		if (nameDefType == Type.IMAGE) {
-			check((isInitialized && declaration.getExpr().getType() == Type.IMAGE) || declaration.getDim() != null || declaration.getExpr().getType() == Type.STRING, declaration, "If type of variable is Image, it must either have an initializer expression of type IMAGE, or a Dimension!");
+			check((isInitialized && declaration.getExpr() != null && declaration.getExpr().getType() == Type.IMAGE) || declaration.getDim() != null || (declaration.getExpr() != null && declaration.getExpr().getType() == Type.STRING), declaration, "If type of variable is Image, it must either have an initializer expression of type IMAGE, or a Dimension!");
 		}
 
 		return nameDefType;

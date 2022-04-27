@@ -477,7 +477,7 @@ public class CodeGenVisitor implements ASTVisitor {
     public Object visitNameDefWithDim(NameDefWithDim nameDefWithDim, Object arg) throws Exception {
         CodeGenStringBuilder sb=  (CodeGenStringBuilder) arg;
         String name = nameDefWithDim.getName();
-        sb.append("BufferedImage " + name + " = new BufferedImage(");
+        sb.append("BufferedImage " + name + "= new BufferedImage(");
         nameDefWithDim.getDim().visit(this, arg);
         sb.append(", BufferedImage.TYPE_INT_RGB)");
         return sb;
@@ -561,10 +561,15 @@ public class CodeGenVisitor implements ASTVisitor {
                     sb.append(toStringType(declaration.getType()) + " ");
                     sb.append(declaration.getName()).eq().space();
                     sb.lparen().append(toBoxedType(declaration.getType())).rparen();
+
+                    String path = declaration.getExpr().getText();
+                    if (path.startsWith("https:/") && path.charAt(7) != '/') {
+                        path = path.substring(0, 7) + '/' + path.substring(7);
+                    }
                     if (declaration.getType() == Type.IMAGE) {
-                        sb.append("FileURLIO.readImage(" + declaration.getExpr().getText());
+                        sb.append("FileURLIO.readImage(" + path);
                     } else {
-                        sb.append("FileURLIO.readValueFromFile(" + declaration.getExpr().getText());
+                        sb.append("FileURLIO.readValueFromFile(" + path);
                     }
                     sb.rparen().semi();
                 } else {
