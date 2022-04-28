@@ -80,4 +80,9 @@ public class CodeGenStringBuilder {
         delegate.append("(").append(type).append(")");
         return this;
     }
+
+    public CodeGenStringBuilder removeLast() {
+        delegate.setLength(delegate.length() - 1);
+        return this;
+    }
 }
